@@ -1,0 +1,11 @@
+# Nonprod (recommended): Run-Nonprod.cmd from this folder (or Start-DashboardDev.cmd).
+# Full prod clone: scripts\Pull-ProdToDev.cmd - see README.md / docs/WORKFLOW.md (docker compose down first).
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: ha-dashboard-dev
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./ha-config:/config

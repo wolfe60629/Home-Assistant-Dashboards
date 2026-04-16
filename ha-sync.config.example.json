@@ -14,6 +14,22 @@
     "RemoteStorageDir": "/config/.storage",
     "LocalRelativeDir": ".storage"
   },
+  "AssistantContextStorage": {
+    "Enabled": true,
+    "RemoteStorageDir": "/config/.storage",
+    "LocalRelativeDir": ".ha-assistant-context",
+    "Files": [
+      "core.device_registry",
+      "core.entity_registry",
+      "core.config_entries",
+      "core.area_registry",
+      "core.label_registry"
+    ]
+  },
+  "DevMirror": {
+    "LocalRelativeDir": "dev/ha-config",
+    "RemoteConfigDir": "/config"
+  },
   "YamlArtifacts": [
     { "RemotePath": "/config/automations.yaml", "LocalRelativePath": "automations.yaml" },
     { "RemotePath": "/config/scripts.yaml", "LocalRelativePath": "scripts.yaml" },

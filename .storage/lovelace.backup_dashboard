@@ -748,8 +748,8 @@
         {
           "type": "sections",
           "max_columns": 2,
-          "title": "Kid's Rooms",
-          "path": "kid-s-rooms",
+          "title": "Mabel's Room",
+          "path": "mabel-s-room",
           "sections": [
             {
               "type": "grid",
@@ -774,31 +774,6 @@
                     }
                   ],
                   "title": "Mabel's Room"
-                }
-              ]
-            },
-            {
-              "type": "grid",
-              "cards": [
-                {
-                  "type": "entities",
-                  "entities": [
-                    {
-                      "entity": "switch.jackson_s_fan"
-                    },
-                    {
-                      "entity": "light.jackson_s_light"
-                    },
-                    {
-                      "entity": "switch.jackson_s_sound_machine_socket_1",
-                      "name": "Jackson's Sound Machine",
-                      "icon": "mdi:home-sound-in"
-                    },
-                    {
-                      "entity": "climate.jackson_s_heater"
-                    }
-                  ],
-                  "title": "Jackson's Room"
                 }
               ]
             }

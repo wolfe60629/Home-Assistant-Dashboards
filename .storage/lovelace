@@ -802,7 +802,7 @@
           "type": "sections",
           "path": "office",
           "max_columns": 4,
-          "title": "Office",
+          "title": "Downstairs office",
           "theme": "waves",
           "sections": [
             {
@@ -834,7 +834,41 @@
                       "entity": "climate.basement_space_heater"
                     }
                   ],
-                  "title": "Office"
+                  "title": "Downstairs bath & office lights"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.jackson_s_fan",
+                      "name": "Fan"
+                    },
+                    {
+                      "entity": "light.jackson_s_light",
+                      "name": "Light"
+                    },
+                    {
+                      "entity": "switch.jackson_s_sound_machine_socket_1",
+                      "name": "Sound machine",
+                      "icon": "mdi:home-sound-in"
+                    },
+                    {
+                      "entity": "climate.jackson_s_heater"
+                    },
+                    {
+                      "entity": "switch.jacksons_humidifier",
+                      "name": "Humidifier"
+                    }
+                  ],
+                  "title": "Jackson's office"
+                },
+                {
+                  "type": "custom:advanced-camera-card",
+                  "cameras": [
+                    {
+                      "camera_entity": "camera.jackson_s_camera_live_view"
+                    }
+                  ]
                 }
               ]
             },
@@ -1224,8 +1258,8 @@
         {
           "type": "sections",
           "max_columns": 2,
-          "title": "Kid's Rooms",
-          "path": "kid-s-rooms",
+          "title": "Mabel's Room",
+          "path": "mabel-s-room",
           "theme": "waves",
           "sections": [
             {
@@ -1239,42 +1273,6 @@
                     }
                   ]
                 },
-                {
-                  "type": "custom:advanced-camera-card",
-                  "cameras": [
-                    {
-                      "camera_entity": "camera.jackson_s_camera_live_view"
-                    }
-                  ]
-                },
-                {
-                  "type": "entities",
-                  "entities": [
-                    {
-                      "entity": "switch.jackson_s_fan"
-                    },
-                    {
-                      "entity": "light.jackson_s_light"
-                    },
-                    {
-                      "entity": "switch.jackson_s_sound_machine_socket_1",
-                      "name": "Jackson's Sound Machine",
-                      "icon": "mdi:home-sound-in"
-                    },
-                    {
-                      "entity": "climate.jackson_s_heater"
-                    },
-                    {
-                      "entity": "switch.jacksons_humidifier"
-                    }
-                  ],
-                  "title": "Jackson's Room"
-                }
-              ]
-            },
-            {
-              "type": "grid",
-              "cards": [
                 {
                   "type": "entities",
                   "entities": [

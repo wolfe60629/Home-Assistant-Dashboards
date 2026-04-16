@@ -4,34 +4,46 @@
 
 .DESCRIPTION
   Reads ha-sync.config.json next to this script (or use -ConfigPath).
+  End-to-end process: README.md and docs/WORKFLOW.md. Convenience launchers: scripts/*.cmd.
   Requires OpenSSH client (ssh) on PATH — built into Windows 10+.
   By default uses non-interactive SSH (BatchMode=yes): install your public key on the Pi
   and set SshIdentityFile, or place a key at .ssh\id_ed25519 or .ssh\id_rsa under your profile.
   Use -AllowPasswordPrompt for an interactive password (not suitable for Cursor automation).
   With LovelaceStorage.Enabled, syncs JSON files in /config/.storage whose names start with
   "lovelace" (UI dashboards: lovelace, lovelace_resources, lovelace.dashboard_*).
+  With AssistantContextStorage.Enabled, pulls a fixed list of .storage JSON files (device/entity
+  registries, config entries, areas, labels) into a separate local folder for tooling and AI
+  context — pull-only; never pushed back to the server.
   YamlArtifacts lists extra /config/*.yaml files (default: automations, scripts, scenes).
+  PullDev streams the entire remote DevMirror.RemoteConfigDir (default /config) from the HA
+  container into DevMirror.LocalRelativeDir (default dev/ha-config) for the Docker dev instance.
 
 .EXAMPLE
   .\Sync-HaConfig.ps1 Pull
   .\Sync-HaConfig.ps1 Push
+  .\Sync-HaConfig.ps1 PullDev
+  .\Sync-HaConfig.ps1 PullDev -ExcludeDatabase
   .\Sync-HaConfig.ps1 Pull -Scope Lovelace
   .\Sync-HaConfig.ps1 Pull -Scope Artifacts
+  .\Sync-HaConfig.ps1 Pull -Scope Context
   .\Sync-HaConfig.ps1 Pull -ConfigPath C:\path\to\ha-sync.config.json
   .\Sync-HaConfig.ps1 Pull -AllowPasswordPrompt
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true, Position = 0)]
-    [ValidateSet('Pull', 'Push')]
+    [ValidateSet('Pull', 'Push', 'PullDev')]
     [string]$Action,
 
-    [ValidateSet('All', 'Config', 'Lovelace', 'Artifacts')]
+    [ValidateSet('All', 'Config', 'Lovelace', 'Artifacts', 'Context')]
     [string]$Scope = 'All',
 
     [string]$ConfigPath = '',
 
-    [switch]$AllowPasswordPrompt
+    [switch]$AllowPasswordPrompt,
+
+    # PullDev only: omit recorder DB (smaller/faster; integrations still load from .storage)
+    [switch]$ExcludeDatabase
 )
 
 Set-StrictMode -Version Latest
@@ -98,6 +110,60 @@ function Read-Config([string]$path) {
         }
         if (-not ($ls.PSObject.Properties.Name -contains 'LocalRelativeDir') -or [string]::IsNullOrWhiteSpace([string]$ls.LocalRelativeDir)) {
             $ls | Add-Member -NotePropertyName LocalRelativeDir -NotePropertyValue '.storage' -Force
+        }
+    }
+    $defaultContextFiles = @(
+        'core.device_registry'
+        'core.entity_registry'
+        'core.config_entries'
+        'core.area_registry'
+        'core.label_registry'
+    )
+    if (-not ($c.PSObject.Properties.Name -contains 'AssistantContextStorage') -or ($null -eq $c.AssistantContextStorage)) {
+        $c | Add-Member -NotePropertyName AssistantContextStorage -NotePropertyValue ([pscustomobject]@{
+                Enabled          = $false
+                RemoteStorageDir = '/config/.storage'
+                LocalRelativeDir = '.ha-assistant-context'
+                Files            = $defaultContextFiles
+            }) -Force
+    } else {
+        $acs = $c.AssistantContextStorage
+        if (-not ($acs.PSObject.Properties.Name -contains 'Enabled')) {
+            $acs | Add-Member -NotePropertyName Enabled -NotePropertyValue $false -Force
+        }
+        if (-not ($acs.PSObject.Properties.Name -contains 'RemoteStorageDir') -or [string]::IsNullOrWhiteSpace([string]$acs.RemoteStorageDir)) {
+            $acs | Add-Member -NotePropertyName RemoteStorageDir -NotePropertyValue '/config/.storage' -Force
+        }
+        if (-not ($acs.PSObject.Properties.Name -contains 'LocalRelativeDir') -or [string]::IsNullOrWhiteSpace([string]$acs.LocalRelativeDir)) {
+            $acs | Add-Member -NotePropertyName LocalRelativeDir -NotePropertyValue '.ha-assistant-context' -Force
+        }
+        if (-not ($acs.PSObject.Properties.Name -contains 'Files') -or ($null -eq $acs.Files)) {
+            $acs | Add-Member -NotePropertyName Files -NotePropertyValue $defaultContextFiles -Force
+        }
+        $fnames = @($acs.Files | ForEach-Object { $_.ToString().Trim() } | Where-Object { $_ })
+        if ($fnames.Count -eq 0) {
+            $acs.Files = $defaultContextFiles
+        }
+        foreach ($fn in @($acs.Files)) {
+            $n = [string]$fn
+            if ([string]::IsNullOrWhiteSpace($n)) { continue }
+            if ($n -match '[/\\]' -or $n -match '\.\.') {
+                throw "AssistantContextStorage.Files entry must be a plain basename (no path segments): $n"
+            }
+        }
+    }
+    if (-not ($c.PSObject.Properties.Name -contains 'DevMirror') -or ($null -eq $c.DevMirror)) {
+        $c | Add-Member -NotePropertyName DevMirror -NotePropertyValue ([pscustomobject]@{
+                LocalRelativeDir  = 'dev/ha-config'
+                RemoteConfigDir   = '/config'
+            }) -Force
+    } else {
+        $dm = $c.DevMirror
+        if (-not ($dm.PSObject.Properties.Name -contains 'LocalRelativeDir') -or [string]::IsNullOrWhiteSpace([string]$dm.LocalRelativeDir)) {
+            $dm | Add-Member -NotePropertyName LocalRelativeDir -NotePropertyValue 'dev/ha-config' -Force
+        }
+        if (-not ($dm.PSObject.Properties.Name -contains 'RemoteConfigDir') -or [string]::IsNullOrWhiteSpace([string]$dm.RemoteConfigDir)) {
+            $dm | Add-Member -NotePropertyName RemoteConfigDir -NotePropertyValue '/config' -Force
         }
     }
     if (-not ($c.PSObject.Properties.Name -contains 'YamlArtifacts') -or ($null -eq $c.YamlArtifacts)) {
@@ -267,6 +333,130 @@ function Pull-LovelaceStorageFiles {
     Write-Host "Lovelace storage pulled to: $localDir" -ForegroundColor Green
 }
 
+function Pull-AssistantContextStorageFiles {
+    param(
+        [string]$sshExe,
+        [hashtable]$ssh,
+        $cfg,
+        [string]$LocalRepoRoot
+    )
+    $acs = $cfg.AssistantContextStorage
+    $dir = [string]$acs.RemoteStorageDir
+    Ensure-HaRemotePathHasNoSingleQuote $dir 'AssistantContextStorage.RemoteStorageDir'
+    $localDir = Join-Path $LocalRepoRoot ([string]$acs.LocalRelativeDir)
+    New-Item -ItemType Directory -Path $localDir -Force | Out-Null
+    $names = @($acs.Files | ForEach-Object { $_.ToString().Trim() } | Where-Object { $_ })
+    if ($names.Count -eq 0) {
+        Write-Host 'AssistantContextStorage.Files is empty; nothing to pull.' -ForegroundColor DarkYellow
+        return
+    }
+    $enc = [System.Text.UTF8Encoding]::new($false)
+    foreach ($name in $names) {
+        if ($name -match '[/\\]') { continue }
+        $remotePath = Join-RemoteUnixPath $dir $name
+        Ensure-HaRemotePathHasNoSingleQuote $remotePath 'Assistant context remote path'
+        $remoteCmd = "docker exec $($cfg.DockerContainer) cat $remotePath"
+        $fileOut = Invoke-SshRemote $sshExe $ssh.SshOpts $ssh.IdentityArg $ssh.PortArg $ssh.Target $remoteCmd
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Skipped (missing or unreadable on server): $name" -ForegroundColor DarkYellow
+            continue
+        }
+        $text = if ($null -eq $fileOut) { '' } elseif ($fileOut -is [array]) { ($fileOut | ForEach-Object { $_.ToString() }) -join "`n" } else { $fileOut.ToString() }
+        if (-not $text.EndsWith("`n")) { $text += "`n" }
+        $localPath = Join-Path $localDir $name
+        [System.IO.File]::WriteAllText($localPath, $text, $enc)
+        Write-Host "  Pulled assistant context: $name" -ForegroundColor Green
+    }
+    Write-Host "Assistant context pulled to: $localDir" -ForegroundColor Green
+}
+
+function Invoke-PullDevFullConfigFromProd {
+    param(
+        [string]$SshExe,
+        [hashtable]$Ssh,
+        $Cfg,
+        [string]$RepoRoot,
+        [bool]$ExcludeDatabase,
+        [bool]$AllowPasswordPrompt
+    )
+    $dm = $Cfg.DevMirror
+    $remoteRoot = [string]$dm.RemoteConfigDir
+    Ensure-HaRemotePathHasNoSingleQuote $remoteRoot 'DevMirror.RemoteConfigDir'
+    $devPath = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot ([string]$dm.LocalRelativeDir)))
+
+    Write-Host ''
+    Write-Host 'Before unpacking: stop the local dev container (avoids locked files on Windows):' -ForegroundColor DarkYellow
+    Write-Host '  cd dev' -ForegroundColor White
+    Write-Host '  docker compose down' -ForegroundColor White
+    Write-Host ''
+
+    # BusyBox tar in HA containers is picky about flag order; use cd + tar instead of -C.
+    if ($ExcludeDatabase) {
+        Write-Host 'Excluding home-assistant_v2.db (+ wal/shm) from the archive.' -ForegroundColor DarkYellow
+        $tarInner = "cd $remoteRoot && tar cf - --exclude=home-assistant_v2.db --exclude=home-assistant_v2.db-wal --exclude=home-assistant_v2.db-shm ."
+    } else {
+        $tarInner = "cd $remoteRoot && tar cf - ."
+    }
+    $remoteCmd = "docker exec $($Cfg.DockerContainer) sh -c '$tarInner'"
+
+    New-Item -ItemType Directory -Force -Path $devPath | Out-Null
+    Get-ChildItem -LiteralPath $devPath -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
+
+    $tempTar = Join-Path ([System.IO.Path]::GetTempPath()) ('ha-dev-full-' + [Guid]::NewGuid().ToString('n') + '.tar')
+    try {
+        Write-Host "Streaming tar from $($Cfg.DockerContainer):$remoteRoot (this can take several minutes) ..." -ForegroundColor Cyan
+        $sshArgs = [System.Collections.ArrayList]::new()
+        [void]$sshArgs.AddRange(@($Ssh.SshOpts))
+        [void]$sshArgs.AddRange(@($Ssh.IdentityArg))
+        [void]$sshArgs.AddRange(@($Ssh.PortArg))
+        [void]$sshArgs.Add($Ssh.Target)
+        [void]$sshArgs.Add($remoteCmd)
+
+        $p = Start-Process -FilePath $SshExe -ArgumentList @($sshArgs.ToArray()) -RedirectStandardOutput $tempTar -NoNewWindow -Wait -PassThru
+        if ($p.ExitCode -ne 0) {
+            throw (Get-SshFailureMessage $p.ExitCode $Cfg $AllowPasswordPrompt)
+        }
+        if (-not (Test-Path -LiteralPath $tempTar)) {
+            throw 'Temporary archive was not created.'
+        }
+        $len = (Get-Item -LiteralPath $tempTar).Length
+        if ($len -lt 1024) {
+            throw "Archive is unexpectedly small ($len bytes). Check DockerContainer and DevMirror.RemoteConfigDir."
+        }
+
+        Write-Host "Extracting into $devPath ..." -ForegroundColor Cyan
+        $dockerBin = Get-Command docker -ErrorAction SilentlyContinue
+        $extractOk = $false
+        if ($null -ne $dockerBin) {
+            Write-Host 'Using Linux tar inside Docker (Windows tar cannot unpack GNU long-path entries from the Pi).' -ForegroundColor DarkGray
+            & docker run --rm -v "$($devPath):/out" -v "$($tempTar):/archive.tar:ro" alpine:3.19 tar xf /archive.tar -C /out
+            if ($LASTEXITCODE -eq 0) {
+                $extractOk = $true
+            } else {
+                Write-Warning "Docker-based extract failed (exit $LASTEXITCODE); trying Windows tar.exe."
+            }
+        }
+        if (-not $extractOk) {
+            $tarCmd = Get-Command tar -ErrorAction Stop
+            & $tarCmd.Source -xf $tempTar -C $devPath
+            if ($LASTEXITCODE -ne 0) {
+                throw "Extract failed (exit $LASTEXITCODE). Install Docker Desktop for reliable unpack, or extract the temp .tar under WSL with GNU tar."
+            }
+        }
+    }
+    finally {
+        if (Test-Path -LiteralPath $tempTar) {
+            Remove-Item -LiteralPath $tempTar -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    Write-Host ''
+    Write-Host "Prod mirror ready at: $devPath" -ForegroundColor Green
+    Write-Host 'Next: cd dev' -ForegroundColor Green
+    Write-Host '      docker compose up -d' -ForegroundColor Green
+    Write-Host '      Open http://localhost:8123 (same logins and integrations as production).' -ForegroundColor DarkGray
+}
+
 function Push-LovelaceStorageFiles {
     param(
         [string]$sshExe,
@@ -320,6 +510,26 @@ Apply-IdentityDiscovery $cfg
 $localFile = Join-Path $scriptRoot $cfg.LocalRelativePath
 $ssh = Build-SshTarget $cfg ([bool]$AllowPasswordPrompt)
 
+if ($Action -eq 'PullDev') {
+    Write-Host "Using config: $ConfigPath" -ForegroundColor DarkGray
+    Write-Host "SSH: $($ssh.Target) (port $($cfg.SshPort))" -ForegroundColor Cyan
+    if ($cfg.SshIdentityFile) {
+        Write-Host "SSH key: $($cfg.SshIdentityFile)" -ForegroundColor DarkGray
+    }
+    if ($cfg.SshBatchMode -and -not $AllowPasswordPrompt) {
+        Write-Host "SSH non-interactive (BatchMode=yes). Use -AllowPasswordPrompt to type a password." -ForegroundColor DarkGray
+    }
+    Write-Host "PullDev: mirror $($cfg.DevMirror.RemoteConfigDir) from container $($cfg.DockerContainer) -> $($cfg.DevMirror.LocalRelativeDir)" -ForegroundColor Cyan
+    Write-Host 'This is a clone of production data (tokens, cloud, Z-Wave keys). Do not run two copies against the same cloud account if the integration forbids it.' -ForegroundColor DarkYellow
+    Invoke-PullDevFullConfigFromProd -SshExe $sshExe -Ssh $ssh -Cfg $cfg -RepoRoot $scriptRoot `
+        -ExcludeDatabase ([bool]$ExcludeDatabase) -AllowPasswordPrompt ([bool]$AllowPasswordPrompt)
+    return
+}
+
+if ($Action -eq 'Push' -and $Scope -eq 'Context') {
+    throw 'Push with -Scope Context is not supported. Assistant context snapshots are pull-only.'
+}
+
 Write-Host "Using config: $ConfigPath" -ForegroundColor DarkGray
 Write-Host "SSH: $($ssh.Target) (port $($cfg.SshPort))" -ForegroundColor Cyan
 if ($cfg.SshIdentityFile) {
@@ -345,6 +555,10 @@ if ($doLovelace -and -not [bool]$cfg.LovelaceStorage.Enabled) {
         throw 'LovelaceStorage.Enabled is false in ha-sync.config.json. Enable it or use -Scope Config.'
     }
     $doLovelace = $false
+}
+$doContext = ($Scope -in @('All', 'Context')) -and [bool]$cfg.AssistantContextStorage.Enabled
+if ($Scope -eq 'Context' -and -not [bool]$cfg.AssistantContextStorage.Enabled) {
+    throw 'AssistantContextStorage.Enabled is false in ha-sync.config.json. Enable it or use -Scope All.'
 }
 
 if ($Action -eq 'Pull') {
@@ -393,6 +607,10 @@ if ($Action -eq 'Pull') {
     if ($doLovelace) {
         Write-Host "Pulling Lovelace storage from $($cfg.LovelaceStorage.RemoteStorageDir) ..." -ForegroundColor Cyan
         Pull-LovelaceStorageFiles -sshExe $sshExe -ssh $ssh -cfg $cfg -LocalRepoRoot $scriptRoot
+    }
+    if ($doContext) {
+        Write-Host "Pulling assistant context from $($cfg.AssistantContextStorage.RemoteStorageDir) ..." -ForegroundColor Cyan
+        Pull-AssistantContextStorageFiles -sshExe $sshExe -ssh $ssh -cfg $cfg -LocalRepoRoot $scriptRoot
     }
     return
 }
