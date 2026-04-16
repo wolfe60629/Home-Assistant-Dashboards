@@ -802,7 +802,7 @@
           "type": "sections",
           "path": "office",
           "max_columns": 4,
-          "title": "Downstairs office",
+          "title": "Downstairs",
           "theme": "waves",
           "sections": [
             {
@@ -834,7 +834,7 @@
                       "entity": "climate.basement_space_heater"
                     }
                   ],
-                  "title": "Downstairs bath & office lights"
+                  "title": "Bath & office lights"
                 },
                 {
                   "type": "entities",
@@ -860,7 +860,7 @@
                       "name": "Humidifier"
                     }
                   ],
-                  "title": "Jackson's office"
+                  "title": "Office"
                 },
                 {
                   "type": "custom:advanced-camera-card",
@@ -1258,7 +1258,7 @@
         {
           "type": "sections",
           "max_columns": 2,
-          "title": "Mabel's Room",
+          "title": "Mabel's room",
           "path": "mabel-s-room",
           "theme": "waves",
           "sections": [
@@ -1292,7 +1292,7 @@
                       "entity": "switch.mabels_humidifier"
                     }
                   ],
-                  "title": "Mabel's Room"
+                  "title": "Room"
                 }
               ]
             }

@@ -1,8 +1,8 @@
 # Local secrets and machine-specific paths — keep example file in repo
 ha-sync.config.json
 
-# Home Assistant registry snapshots (devices, entities, integrations) — often sensitive; keep local only
+# Optional local registry snapshots (if you create this folder manually)
 .ha-assistant-context/
 
-# Ephemeral Docker dev config (copied from repo by dev/Prepare-DevConfig.ps1)
+# Leftover local Docker / HA data (no longer tracked in repo; safe to ignore)
 dev/ha-config/
