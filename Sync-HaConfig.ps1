@@ -362,7 +362,7 @@ if ($Action -eq 'Pull') {
     }
     if ($doYaml) {
         Write-Host 'Pulling YAML artifacts (automations / scripts / scenes) ...' -ForegroundColor Cyan
-        $rows = $cfg.YamlArtifacts
+        $rows = @($cfg.YamlArtifacts)
         if ($null -eq $rows -or ($rows | Measure-Object).Count -eq 0) {
             Write-Host 'YamlArtifacts is empty; skipping extra YAML pull.' -ForegroundColor DarkYellow
         } else {
@@ -434,7 +434,7 @@ if ($Action -eq 'Push') {
     }
     if ($doYaml) {
         Write-Host 'Pushing YAML artifacts (automations / scripts / scenes) ...' -ForegroundColor Cyan
-        $rows = $cfg.YamlArtifacts
+        $rows = @($cfg.YamlArtifacts)
         if ($null -eq $rows -or ($rows | Measure-Object).Count -eq 0) {
             Write-Host 'YamlArtifacts is empty; skipping extra YAML push.' -ForegroundColor DarkYellow
         } else {
