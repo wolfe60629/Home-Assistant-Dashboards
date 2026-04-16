@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "436ab6ac858041ea803a7461f7984007",
+        "url": "/webrtc/webrtc-camera.js?v=v3.6.0",
+        "type": "module"
+      },
+      {
+        "id": "f2161a89e26746c59daa7eb95a6df2be",
+        "url": "/hacsfiles/lovelace-layout-card/layout-card.js?hacstag=156434866247",
+        "type": "module"
+      },
+      {
+        "id": "aea5fd8a85254477843fbeb181f31a56",
+        "url": "/hacsfiles/Bubble-Card/bubble-card.js?hacstag=680112919314",
+        "type": "module"
+      },
+      {
+        "id": "9ffe8ea6c95c47539a22ecb89383103c",
+        "url": "/hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511",
+        "type": "module"
+      },
+      {
+        "id": "3ea9dbc4461e45358f10c325bd6b9770",
+        "url": "/hacsfiles/lovelace-mushroom-better-sliders/mushroom.js?hacstag=586363416302",
+        "type": "module"
+      },
+      {
+        "id": "0d44c0fc92824bc09b6182cd98f3df99",
+        "url": "/hacsfiles/homeassistant-minimalistic-area-card/minimalistic-area-card.js?hacstag=489457357120",
+        "type": "module"
+      },
+      {
+        "id": "0902df88ea5a4f459b30ab83f35933f3",
+        "url": "/hacsfiles/button-card/button-card.js?hacstag=146194325701",
+        "type": "module"
+      },
+      {
+        "id": "f7c52786b653461bbe2116fe02864559",
+        "url": "/hacsfiles/lovelace-slider-entity-row/slider-entity-row.js?hacstag=1448997001750",
+        "type": "module"
+      },
+      {
+        "id": "f76778f7c2bb42f2a15144b14b7fb007",
+        "url": "/hacsfiles/roku-card/roku-card.js?hacstag=164367214124",
+        "type": "module"
+      },
+      {
+        "id": "84c0248393f747c0820584be82d89cff",
+        "url": "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620130",
+        "type": "module"
+      },
+      {
+        "id": "b1a9781b178043978a5819bfc7da357b",
+        "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841161",
+        "type": "module"
+      },
+      {
+        "id": "1015b883565b457e824e02777d0977ee",
+        "url": "/hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js?hacstag=142051833101",
+        "type": "module"
+      },
+      {
+        "id": "cafcbd58fe7644dfad2d317ae315285d",
+        "url": "/hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421",
+        "type": "module"
+      },
+      {
+        "id": "59435829a71742deaec0f1dad3018c4b",
+        "url": "/hacsfiles/stack-in-card/stack-in-card.js?hacstag=248954055020",
+        "type": "module"
+      },
+      {
+        "id": "6566714c28f54245a0117ef1df829369",
+        "url": "/hacsfiles/lovelace-fold-entity-row/fold-entity-row.js?hacstag=150781994232",
+        "type": "module"
+      },
+      {
+        "id": "7537be33c8c84748974f43c8895cd552",
+        "url": "/hacsfiles/lovelace-state-switch/state-switch.js?hacstag=158756598196",
+        "type": "module"
+      },
+      {
+        "id": "372ee2ff74a840a688c525d61390ed23",
+        "url": "/hacsfiles/mini-climate-card/mini-climate-card-bundle.js?hacstag=268163975273",
+        "type": "module"
+      },
+      {
+        "id": "f9638cb2b43844bfa91537a89f83e270",
+        "url": "/hacsfiles/weather-card/weather-card.js?hacstag=192732636150",
+        "type": "module"
+      },
+      {
+        "id": "7a9ee0acedc848cfb086648a2cb0d2ef",
+        "url": "/hacsfiles/service-call-tile-feature/custom-features-row.min.js?hacstag=698501153434",
+        "type": "module"
+      },
+      {
+        "id": "1c64541e4b9741b8a62ff76ff0c6b51f",
+        "url": "/hacsfiles/custom-card-features/custom-card-features.min.js?hacstag=6985011534712",
+        "type": "module"
+      },
+      {
+        "id": "d66d2387093d47a38a2de956fd2adb9f",
+        "url": "/hacsfiles/advanced-camera-card/advanced-camera-card.js?hacstag=3940825527274",
+        "type": "module"
+      },
+      {
+        "id": "37e7add63f7649d1ab792451b776ebe8",
+        "url": "/hacsfiles/universal-remote-card/universal-remote-card.min.js?hacstag=654393646498",
+        "type": "module"
+      },
+      {
+        "id": "fe81d306fa5a4d45a45a31b04fe784f3",
+        "url": "/hacsfiles/temperature-heatmap-card/temperature-heatmap-card.js?hacstag=666807633111",
+        "type": "module"
+      },
+      {
+        "id": "3b27e56be801438eb7f0d8a0ec713bc7",
+        "url": "/hacsfiles/ha-map-card/map-card.js?hacstag=7348254571131",
+        "type": "module"
+      },
+      {
+        "id": "0d90de8ecf7d4f869d25d91490be60b2",
+        "url": "/hacsfiles/material-you-utilities/material-you-utilities.min.js?hacstag=9677371532034",
+        "type": "module"
+      },
+      {
+        "id": "ead0aa492b29452ea6450e7a48411835",
+        "url": "/hacsfiles/HA-Firemote/HA-Firemote.js?hacstag=536329656419",
+        "type": "module"
+      },
+      {
+        "id": "d26860a0aaa44e19bf560034e7de743c",
+        "url": "/hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152223",
+        "type": "module"
+      },
+      {
+        "id": "29cb163d57c44be1ac9da1acf106bcf9",
+        "url": "/hacsfiles/calendar-card-pro/calendar-card-pro.js?hacstag=939311749310",
+        "type": "module"
+      },
+      {
+        "id": "1df38a82e0034202896f6d027a87add1",
+        "url": "/hacsfiles/Google-Map-Card/google-maps-card.js?hacstag=1005504308506",
+        "type": "module"
+      },
+      {
+        "id": "c157d3e2ca8640a3b2984b793ef0c882",
+        "url": "/hacsfiles/ha-weather-forecast-card/weather-forecast-card.js?hacstag=1110718167100",
+        "type": "module"
+      },
+      {
+        "id": "8ac4d853fef443f8993a9fbf87b5aa9f",
+        "url": "/browser_mod.js?automatically-added&2.9.0",
+        "type": "module"
+      },
+      {
+        "id": "cd162d5b59c54f7d98e8ff511560791b",
+        "url": "/hacsfiles/lovelace-template-entity-row/template-entity-row.js?hacstag=231674882141",
+        "type": "module"
+      }
+    ]
+  }
+}

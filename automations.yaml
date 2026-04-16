@@ -1,0 +1,931 @@
+- id: '1739892356797'
+  alias: 'Outside - Spa Notification '
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - climate.spa_thermostat
+    attribute: current_temperature
+    below: 98
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_9_pro_xl
+    metadata: {}
+    data:
+      title: CRITICAL - Hot Tub Temperature Low
+      message: Your hot tub's temperature is low
+  mode: single
+- id: '1744584905684'
+  alias: 'Backyard: Pool'
+  description: ''
+  triggers:
+  - at: '10:00:00'
+    trigger: time
+  conditions: []
+  actions:
+  - action: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.pool
+  - delay:
+      hours: 8
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.pool
+  mode: single
+- id: '1746567170474'
+  alias: Outside - Pool Notification
+  description: Sends a notification if the 'pool' device becomes unavailable.
+  triggers:
+  - entity_id:
+    - switch.pool
+    to: unavailable
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.notify
+    data:
+      message: The pool is offline. Please check the internet connection.
+      title: 'CRITICAL: Pool Offline'
+  mode: single
+- id: '1747367592512'
+  alias: 'Backyard: Motion Turn Lights On'
+  description: Turns on the backyard flood light when motion is found
+  triggers:
+  - trigger: state
+    entity_id:
+    - event.backyard_camera_motion
+  - device_id: 501f24f3b73a1e856603f1cdbf4f0526
+    domain: lock
+    entity_id: 590d4b9932c79a31ad625e977f26627e
+    type: unlocked
+    trigger: device
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - type: turn_on
+    device_id: 35290e8b715d0f8cdbd54f6ec587d938
+    entity_id: 76e152d35785861dcf25e53c04521918
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 35290e8b715d0f8cdbd54f6ec587d938
+    entity_id: 76e152d35785861dcf25e53c04521918
+    domain: switch
+  mode: single
+- id: '1747368292590'
+  alias: 'Downstairs: Sync Downstairs and Entryway Switches'
+  description: ''
+  triggers:
+  - entity_id:
+    - switch.downstairs_light
+    - switch.entryway_light
+    trigger: state
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - target:
+      entity_id: "{% if trigger.entity_id == 'switch.downstairs_light' %}\n  switch.entryway_light\n{%
+        else %}\n  switch.downstairs_light\n{% endif %}\n"
+    action: switch.turn_{{ trigger.to_state.state }}
+  mode: queued
+- id: '1747369282719'
+  alias: 'Bathroom: Auto Fan Off'
+  description: ''
+  triggers:
+  - entity_id:
+    - switch.bathroom_fan
+    - switch.guest_bathroom_fan
+    - switch.downstairs_bathroom_fan
+    - switch.shower_fan
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+    trigger: state
+  actions:
+  - target:
+      entity_id: '{{ trigger.entity_id }}'
+    action: switch.turn_off
+  mode: parallel
+  max: 4
+- id: '1747369526451'
+  alias: 'Hallway: Auto Off'
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.hallway
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    to: 'on'
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: f9cb6017058f2a6e9237685be7669109
+    entity_id: ea5b2b795aae2fc0f0d202b61a931a57
+    domain: switch
+  mode: single
+- id: '1747369738404'
+  alias: 'Hallway: Entry Auto Turn Off'
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.entryway_light
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    to:
+    - 'on'
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 41bd052b25b0dad98ed5fccb70912d21
+    entity_id: 1ced929ea18e1d9018b5b10dca079919
+    domain: switch
+  mode: single
+- id: '1747423880021'
+  alias: 'Bedroom: Run Bedroom Fan Speed Script'
+  description: Triggers the fan speed script when the input_select changes
+  triggers:
+  - entity_id: input_select.bedroom_fan_speed
+    trigger: state
+  conditions: []
+  actions:
+  - action: script.set_bedroom_fan_speed
+  mode: single
+- id: '1748130307448'
+  alias: 'Mabel: Daytime Light Trigger'
+  triggers:
+  - entity_id: light.mabels_light
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: sun
+    after: sunrise
+    before: sunset
+    enabled: true
+  - condition: template
+    value_template: "{{ (now() - states.switch.mabel_s_sound_machine_socket_1.last_changed).total_seconds()
+      > (10*60)\n   and is_state('switch.mabel_s_sound_machine_socket_1', 'on') }}\n"
+  actions:
+  - target:
+      entity_id: switch.mabel_s_sound_machine_socket_1
+    action: switch.turn_off
+    data: {}
+  mode: single
+- id: '1748130876041'
+  alias: 'Jackson: Sound Machine Off Light On'
+  description: ''
+  triggers:
+  - entity_id:
+    - light.jackson_s_light
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: sun
+    after: sunrise
+    before: sunset
+    enabled: true
+  - condition: template
+    value_template: "{{ (now() - states.switch.jackson_s_sound_machine_socket_1.last_changed).total_seconds()
+      > (10*60)\n   and is_state('switch.jackson_s_sound_machine_socket_1', 'on')
+      }}\n"
+  actions:
+  - target:
+      entity_id: switch.jackson_s_sound_machine_socket_1
+    action: switch.turn_off
+    data: {}
+  mode: single
+- id: '1748131418112'
+  alias: Mabel - Sound Machine Off at 10AM
+  description: ''
+  triggers:
+  - at: '10:00:00'
+    trigger: time
+  actions:
+  - target:
+      entity_id: switch.mabel_s_sound_machine_socket_1
+    action: switch.turn_off
+  mode: single
+- id: '1749317419196'
+  alias: 'Laundry Room: Washer Finished'
+  description: ''
+  triggers:
+  - entity_id: sensor.at340891n_laundry_machine_state
+    from: Run
+    trigger: state
+  actions:
+  - target:
+      entity_id: media_player.kitchen_echo_show
+    data:
+      volume_level: 0.6
+    action: media_player.volume_set
+  - data:
+      message: Your washer has completed its cycle.
+    action: notify.alexa_media_kitchen_echo_show
+  - wait_for_trigger:
+    - entity_id: switch.laundry_room_light
+      to: 'on'
+      trigger: state
+    - entity_id: sensor.at340891n_laundry_machine_state
+      to: Run
+      trigger: state
+    timeout: 00:20:00
+    continue_on_timeout: true
+  - condition: template
+    value_template: '{{ wait.trigger is none or wait.trigger.entity_id != ''sensor.at340891n_laundry_machine_state''
+      }}'
+  - condition: template
+    value_template: '{{ as_timestamp(states.switch.laundry_room_light.last_changed)
+      < as_timestamp(finished_time) }}
+
+      '
+  - data:
+      message: 'Reminder: Laundry might still be in the washer.'
+    action: notify.alexa_media_kitchen_echo_show
+  - wait_for_trigger:
+    - entity_id: switch.laundry_room_light
+      to: 'on'
+      trigger: state
+    - entity_id: sensor.at340891n_laundry_machine_state
+      to: Run
+      trigger: state
+    timeout: 00:40:00
+    continue_on_timeout: true
+  - condition: template
+    value_template: '{{ wait.trigger is none or wait.trigger.entity_id != ''sensor.at340891n_laundry_machine_state''
+      }}'
+  - condition: template
+    value_template: '{{ as_timestamp(states.switch.laundry_room_light.last_changed)
+      < as_timestamp(finished_time) }}
+
+      '
+  - data:
+      message: 'Final reminder: Please remove the laundry from the washer.'
+    action: notify.alexa_media_kitchen_echo_show
+  - action: alexa_media.restore_volume
+    metadata: {}
+    data:
+      entity_id: media_player.kitchen_echo_show
+  variables:
+    finished_time: '{{ now() }}'
+    previous_volume: '{{ state_attr(''media_player.kitchen_echo_show'', ''volume_level'')
+      }}'
+  mode: restart
+- id: '1749317521033'
+  alias: 'Laundry room: Dryer Finished'
+  description: ''
+  triggers:
+  - entity_id: sensor.gt901069g_laundry_machine_state
+    from: Run
+    trigger: state
+  actions:
+  - target:
+      entity_id: media_player.kitchen_echo_show
+    data:
+      volume_level: 0.5
+    action: media_player.volume_set
+  - data:
+      message: Your dryer has completed its cycle.
+    action: notify.alexa_media_kitchen_echo_show
+  - wait_for_trigger:
+    - entity_id: switch.laundry_room_light
+      to: 'on'
+      trigger: state
+    - entity_id: sensor.gt901069g_laundry_machine_state
+      to: Run
+      trigger: state
+    timeout: 00:20:00
+    continue_on_timeout: true
+  - condition: template
+    value_template: '{{ wait.trigger is none or wait.trigger.entity_id != ''sensor.gt901069g_laundry_machine_state''
+      }}'
+  - condition: template
+    value_template: '{{ as_timestamp(states.switch.laundry_room_light.last_changed)
+      < as_timestamp(finished_time) }}
+
+      '
+  - target:
+      entity_id: media_player.kitchen_echo_show
+    data:
+      volume_level: 0.5
+    action: media_player.volume_set
+  - data:
+      message: 'Reminder: Laundry might still be in the dryer.'
+    action: notify.alexa_media_kitchen_echo_show
+  - wait_for_trigger:
+    - entity_id: switch.laundry_room_light
+      to: 'on'
+      trigger: state
+    - entity_id: sensor.gt901069g_laundry_machine_state
+      to: Run
+      trigger: state
+    timeout: 00:40:00
+    continue_on_timeout: true
+  - condition: template
+    value_template: '{{ wait.trigger is none or wait.trigger.entity_id != ''sensor.gt901069g_laundry_machine_state''
+      }}'
+  - condition: template
+    value_template: '{{ as_timestamp(states.switch.laundry_room_light.last_changed)
+      < as_timestamp(finished_time) }}
+
+      '
+  - target:
+      entity_id: media_player.kitchen_echo_show
+    data:
+      volume_level: 0.5
+    action: media_player.volume_set
+  - data:
+      message: 'Final reminder: Please remove the laundry from the dryer.'
+    action: notify.alexa_media_kitchen_echo_show
+  - target:
+      entity_id: media_player.kitchen_echo_show
+    data:
+      volume_level: '{{ previous_volume }}'
+    action: media_player.volume_set
+  variables:
+    finished_time: '{{ now() }}'
+    previous_volume: '{{ state_attr(''media_player.kitchen_echo_show'', ''volume_level'')
+      }}'
+  mode: restart
+- id: '1750620984212'
+  alias: 'House: Air Conditioner Summer Morning'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '10:00:00'
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      target_temp_high: 71
+      target_temp_low: 64
+      hvac_mode: heat_cool
+    target:
+      device_id: 976e43da9db24b9540f1e56b95d35e4a
+  - type: turn_on
+    device_id: c0cc0fcfe5302b825e7531bd1a69ac3d
+    entity_id: ea860e5a49e5258729683e4c56c92e24
+    domain: switch
+  - type: turn_on
+    device_id: 90fa9fbdb8e83f992d01b8a70fc6281d
+    entity_id: 7fe068a1ba4f5609a63db2b0892ff34b
+    domain: switch
+  - type: turn_on
+    device_id: 2939e89aa494c086988915571ab85c72
+    entity_id: a28184a5caf3d9bbd03858cb20a44f91
+    domain: switch
+  - type: turn_on
+    device_id: 5538283e152036d916738712b3162a0d
+    entity_id: e5a0347a156d04aa6c0c7727a616967e
+    domain: switch
+  mode: single
+- id: '1753239301923'
+  alias: 'House: Summer Air Conditioner Off'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '20:00:00'
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      target_temp_low: 64
+      hvac_mode: heat_cool
+      target_temp_high: 70
+    target:
+      device_id: 976e43da9db24b9540f1e56b95d35e4a
+  - type: turn_off
+    device_id: c0cc0fcfe5302b825e7531bd1a69ac3d
+    entity_id: ea860e5a49e5258729683e4c56c92e24
+    domain: switch
+  - type: turn_off
+    device_id: 90fa9fbdb8e83f992d01b8a70fc6281d
+    entity_id: 7fe068a1ba4f5609a63db2b0892ff34b
+    domain: switch
+  - type: turn_off
+    device_id: 2939e89aa494c086988915571ab85c72
+    entity_id: a28184a5caf3d9bbd03858cb20a44f91
+    domain: switch
+  - type: turn_off
+    device_id: 5538283e152036d916738712b3162a0d
+    entity_id: e5a0347a156d04aa6c0c7727a616967e
+    domain: switch
+  mode: single
+- id: '1755567003169'
+  alias: 'Dining Room: Picture Lights Auto'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '18:00:00'
+    id: 'On'
+  - trigger: time
+    at: '23:00:00'
+    id: 'Off'
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - 'On'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:JgBUAAABIY8XDxM1FDUTERMRFBAUERM1FDUTNhMRExISNhI3EjYSEhM2EjYTERMSEhISEhMRExISEhISEzYSNhM2EjYSNxM1EwAE8wABIEkUAAhiBQANBQ==
+      - action: remote.send_command
+        metadata: {}
+        data:
+          hold_secs: 0
+          device: Picture lights
+          command: 'on'
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        enabled: false
+      - data:
+          command: brightness_down
+          device: Picture lights
+          delay_secs: 0.3
+          num_repeats: 3
+        action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        enabled: false
+    - conditions:
+      - condition: trigger
+        id:
+        - 'Off'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:JgBQAAABIJETERM1EzYSEhQQFBETERI2EzYSNhMRFBAUNRI2EzYSEhMRExEUERM1EjYUERMREzUUNRI2FTQSEhMREzUTNhISFAAE8QABIUkSAA0F==
+      - data:
+          command: brightness_up
+          device: Picture lights
+          num_repeats: 3
+          delay_secs: 0.3
+        action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        enabled: false
+      - action: remote.send_command
+        metadata: {}
+        data:
+          hold_secs: 0
+          device: Picture lights
+          command: 'off'
+          num_repeats: 2
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        enabled: false
+  mode: single
+- id: '1758748035782'
+  alias: House - Fall Air Conditioner Morning
+  description: ''
+  triggers:
+  - trigger: time
+    at: '10:00:00'
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      target_temp_high: 72
+      target_temp_low: 66
+      hvac_mode: heat_cool
+    target:
+      device_id: 976e43da9db24b9540f1e56b95d35e4a
+  mode: single
+- id: '1758748353836'
+  alias: House - Fall Air Conditioner Night
+  description: ''
+  triggers:
+  - trigger: time
+    at: '19:00:00'
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      target_temp_low: 67
+      hvac_mode: heat_cool
+      target_temp_high: 71
+    target:
+      device_id: 976e43da9db24b9540f1e56b95d35e4a
+  mode: single
+- id: '1763422492623'
+  alias: 'House: Motion Detected'
+  description: ''
+  triggers:
+  - type: motion
+    device_id: 9ca0e8c730e0f57e6a6077acf1ff9529
+    entity_id: 3a7808536e62e3c93658da6f8782db65
+    domain: binary_sensor
+    trigger: device
+  - device_id: 30eb95cf642c3e3a2b92150a064bf80e
+    domain: lock
+    entity_id: eda199d710f809bbbea2a5df7d336272
+    type: unlocked
+    trigger: device
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - type: turn_on
+    device_id: 9d5f87c1579789dbafee78ad2e221c49
+    entity_id: 17b70e1528fce3139cb978ed1969db79
+    domain: switch
+  - type: turn_on
+    device_id: f109411c2801274e8bf23807deabe413
+    entity_id: bb9cb5019baf3a504f43139e06548a8e
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: f109411c2801274e8bf23807deabe413
+    entity_id: bb9cb5019baf3a504f43139e06548a8e
+    domain: switch
+  - type: turn_off
+    device_id: 9d5f87c1579789dbafee78ad2e221c49
+    entity_id: 17b70e1528fce3139cb978ed1969db79
+    domain: switch
+  mode: single
+- id: '1764556672710'
+  alias: 'Seasonal: Christmas Tree'
+  description: ''
+  triggers:
+  - trigger: sun
+    event: sunset
+    offset: 0
+    id: Evening
+  - trigger: time
+    at: 09:00:00
+    weekday:
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+    - sun
+    id: Morning
+    alias: Time 9AM
+  - alias: Time Midnight
+    trigger: time
+    at: '23:59:00'
+    weekday:
+    - sun
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+    id: Night
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Morning
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_pct: 100
+        target:
+          entity_id: light.christmas_tree_light
+    - conditions:
+      - condition: trigger
+        id:
+        - Night
+      sequence:
+      - type: turn_off
+        device_id: 58bbf3ff64625ea53d059daabdf8e3c0
+        entity_id: adc9a7a25ab37406aa823df96e49f4ce
+        domain: light
+        metadata:
+          secondary: false
+    - conditions:
+      - condition: trigger
+        id:
+        - Evening
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_pct: 33
+        target:
+          entity_id: light.christmas_tree_light
+  mode: single
+- id: '1765954097171'
+  alias: 'Mabel: Turn fan off '
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 2939e89aa494c086988915571ab85c72
+    entity_id: a28184a5caf3d9bbd03858cb20a44f91
+    domain: switch
+    trigger: device
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 2939e89aa494c086988915571ab85c72
+    entity_id: a28184a5caf3d9bbd03858cb20a44f91
+    domain: switch
+  mode: single
+- id: '1767833863684'
+  alias: 'Home: Unlock Proximity'
+  description: ''
+  triggers:
+  - device_id: 3ed62eed55496f205e25a719e99986f3
+    domain: device_tracker
+    entity_id: ddd24789bceac2b278cd960a3daa4126
+    type: enters
+    trigger: device
+    zone: zone.home
+  - trigger: state
+    entity_id: sensor.doorbell_person_name
+    to: Jeremy
+  - trigger: state
+    entity_id: sensor.doorbell_person_name
+    to: Megan
+  conditions: []
+  actions:
+  - device_id: 30eb95cf642c3e3a2b92150a064bf80e
+    domain: lock
+    entity_id: eda199d710f809bbbea2a5df7d336272
+    type: unlock
+  - type: turn_on
+    device_id: 41bd052b25b0dad98ed5fccb70912d21
+    entity_id: 1ced929ea18e1d9018b5b10dca079919
+    domain: switch
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.predictive_garage_door_l
+        state:
+        - Left
+      sequence:
+      - target:
+          entity_id: cover.left_garage_door
+        action: cover.open_cover
+        data: {}
+    - conditions:
+      - condition: state
+        entity_id: input_select.predictive_garage_door_l
+        state:
+        - Right
+      sequence: []
+  - data:
+      option: None
+    action: input_select.select_option
+    target:
+      entity_id: input_select.predictive_garage_door_l
+  - target:
+      entity_id: automation.house_motion_detected
+    data:
+      skip_condition: true
+    action: automation.trigger
+  mode: single
+- id: '1768451707369'
+  alias: 'Manual: Bedtime '
+  description: ''
+  triggers:
+  - trigger: event
+    event_type: ''
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+      - living_room
+      - kitchen
+      - bathroom
+      - garage
+      - front_porch
+      - office
+      - foyer
+      - back_porch
+      - laundry_room
+      - hallway
+  - type: turn_off
+    device_id: 27491657ad7c19d411f6218f786903d8
+    entity_id: 144f2840a968665ed8905430afe48393
+    domain: light
+  - type: turn_off
+    device_id: 255a206de2eb9b0c046e4f48f638cca4
+    entity_id: 708438b6323438f108b543b5f21a2c17
+    domain: light
+  - type: turn_on
+    device_id: ebc4a0733c3799ed7d37dc11815b56bb
+    entity_id: 619e4908da415e4b9e5dab4e2288e235
+    domain: switch
+  mode: single
+- id: '1768454099078'
+  alias: 'Manual: Kids Bedtime'
+  description: ''
+  triggers:
+  - trigger: event
+    event_type: ''
+  conditions: []
+  actions:
+  - parallel:
+    - type: turn_on
+      device_id: b157df767a33d2bd4b99bfb9c81961ec
+      entity_id: 36f2b48a648a1f40637c44c59a489af0
+      domain: switch
+    - type: turn_on
+      device_id: 5095e55f97119c14946a240140b6000f
+      entity_id: 9959ed358d5c311d1879d3fcae6d089c
+      domain: switch
+    - type: turn_off
+      device_id: ffa13e85eb01d9b6d2d45e3580d2baca
+      entity_id: 81cf3f3f31f2194e699a3974f599c50c
+      domain: light
+    - type: turn_off
+      device_id: 6e66692d5c55fc249210ecd44573c280
+      entity_id: 74d2518359cb8f8683e97774ed81d882
+      domain: light
+  - parallel:
+    - type: turn_on
+      device_id: d33ea4640a73987335052fdaaa287148
+      entity_id: bbe6369a696c2cd69a1e611f0cf9b124
+      domain: switch
+    - type: turn_on
+      device_id: 70355a42ea8698a7536a12bd12f66292
+      entity_id: e7b7ef76dbee9773c5c02b7d6448ee15
+      domain: switch
+    - type: turn_off
+      device_id: 76e14bead95522302b85f94bf80fbad3
+      entity_id: edd2c59a3d743cc4019d6d7db6c9dcf1
+      domain: light
+  mode: single
+- id: '1770267940835'
+  alias: 'Bedroom: Sound Machine Off'
+  description: ''
+  triggers:
+  - trigger: time
+    at: 08:30:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      device_id: ebc4a0733c3799ed7d37dc11815b56bb
+    data: {}
+  mode: single
+- id: '1771176261777'
+  alias: MABEL 2
+  description: ''
+  triggers:
+  - trigger: light.turned_on
+    target:
+      entity_id: light.mabels_light
+    options:
+      behavior: any
+  conditions:
+  - condition: time
+    after: '21:00:00'
+    before: 06:00:00
+    weekday:
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+    - sun
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id: light.mabels_light
+    data: {}
+  - action: notify.alexa_media_bedroom_alexa_show
+    metadata: {}
+    data:
+      message: Mabel's light was automatically turned off
+  - action: notify.alexa_media_mabel_s_echo_dot
+    metadata: {}
+    data:
+      message: MABEL GO BACK TO BED!
+  mode: single
+- id: '1771387153728'
+  alias: New automation
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.jeremy_wolfe
+    zone: zone.home
+    event: leave
+  - trigger: zone
+    entity_id: person.megan
+    zone: zone.home
+    event: leave
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: device
+        device_id: 6acbd8d3d3438390b57b0a6bdd3bd4d2
+        domain: cover
+        entity_id: e67f97beb9caf2cee1a0e54ac1fcd41c
+        type: is_closed
+      - condition: state
+        entity_id: cover.left_garage_door
+        state:
+        - closed
+      sequence: []
+  mode: single
+- id: '1771448587479'
+  alias: Predictive Garage - Left Departure
+  triggers:
+  - entity_id: cover.left_garage_door
+    to: closed
+    trigger: state
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.jeremy_wolfe
+      state: home
+    - condition: state
+      entity_id: person.megan
+      state: home
+  actions:
+  - wait_for_trigger:
+    - entity_id: person.jeremy_wolfe
+      zone: zone.home
+      event: leave
+      trigger: zone
+    - entity_id: person.megan
+      zone: zone.home
+      event: leave
+      trigger: zone
+    timeout: 00:10:00
+    continue_on_timeout: false
+  - target:
+      entity_id:
+      - input_select.predictive_garage_door_l
+    data:
+      option: Left
+    action: input_select.select_option
+  mode: restart
+- id: '1771692087798'
+  alias: Auto Next View On Scroll
+  description: ''
+  triggers:
+  - event_type: browser_mod_connected
+    trigger: event
+  actions:
+  - data:
+      code: "if (!window._autoNextViewInstalled) {\n  window._autoNextViewInstalled
+        = true;\n\n  let triggered = false;\n\n  window.addEventListener(\"scroll\",
+        () => {\n    const scrollPosition = window.innerHeight + window.scrollY;\n
+        \   const bottom = document.body.offsetHeight - 5;\n\n    if (scrollPosition
+        >= bottom && !triggered) {\n      triggered = true;\n\n      const path =
+        window.location.pathname;\n      const match = path.match(/\\/lovelace\\/(\\d+)/);\n\n
+        \     if (match) {\n        let currentView = parseInt(match[1]);\n        let
+        nextView = currentView + 1;\n\n        // CHANGE THIS NUMBER\n        if (nextView
+        > 3) {\n          nextView = 0;\n        }\n\n        window.history.pushState(null,
+        \"\", `/lovelace/${nextView}`);\n        window.dispatchEvent(new Event(\"location-changed\"));\n
+        \     }\n\n      setTimeout(() => {\n        triggered = false;\n      },
+        2000);\n    }\n  });\n}\n"
+    action: browser_mod.javascript
+  mode: single

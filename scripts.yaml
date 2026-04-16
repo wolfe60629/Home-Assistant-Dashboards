@@ -1,0 +1,75 @@
+set_bedroom_fan_speed:
+  alias: Set Bedroom Fan Speed
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '1'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AaDOBAANHQ8eDx4PHg8eDx4PHg4eDx4PHg8eDx4OHw4eDx4PHg8eDw8dEB0QHR8OHw4QHB8OAAFWDh4PHg8eDx4OHw4fDh4PHg8eDx4PHg4fDh8OHg8eDx4PHg4QHRAdEB0eDx4PEBwfDgABVg4eDx4PHg4fDh4PHg8eDx4PHg4fDh8OHg8eDx4PHg8eDh8OEB0QHRAdHg8eDw8dHw4AAVUPHg4fDh8OHg8eDx4PHg4fDh8OHg8eDx4PHg8eDh8OHw4eDxAdDx4PHh4OHw4QHR4PAAFVDx0PHg8eDx4PHg4eDx4PHg8eDx4OHw4fDh4PHg8eDx4PHg4QHRAdEB0fDh8OEB0eDgABVQ8eDx4PHg4fDh4PHg8eDx4OHw8eDh8OHg8eDx4PHg4fDh8OEB0QHRAdHg8eDhAdHw4ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '2'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AXjOBAAQHBAdEB0QHQ8dEB0QHQ8eEB0PHg8eDx4PHg8eDx0QHQ8QHR4PDx4PHR8OHw4QHR4PAAFVDx0QHRAdEB0PHg8eDx4PHg8dEB0QHQ8eDx4PHg8eDx0QDx4dDw8eEB0eDx4PDx4eDgABVRAdDx4PHRAdEB0QHRAdDx4PHg8dEB0QHQ8eDx4PHg8eDw8eHQ8QHRAdHg8eDw8dHw8AAVQQHQ8eDx4PHRAdEB0PHg8eDx4PHg8dEB0QHQ8eDx4PHg8PHh0QDx0QHR4PHg8PHR8OAAFVDx4PHg8dEB0QHRAdDx4PHg8eDx0QHRAdEB0PHg8eDx4PDx4dEA8dEB0eDx4PDx4eDgABVQ8dEB0QHRAdEB0PHg8eDx0QHRAdDx4QHQ8eDx4PHg8eDw8eHQ8QHQ8eHg8eDw8dHw8ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '3'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AXjOBAAOHQ8dEB0QHRAdDx4PHg8dEB0QHRAdDx4PHg8eDx4PHRAdDx4PDx4PHh4PHg4QHR8OAAFVDx4PHRAdDx4PHg8eDx4PHg8eDx0QHQ8eDx4PHg8eDx4PHRAdDxAdDx4eDx4PDx4eDgABVQ8eDx4PHRAdDx4PHg8eDx4PHg8dEB0PHg8eDx4PHg8eDx0QHQ8QHQ8eHg8eDw8eHg4AAVUPHg8dEB0QHRAdDx4PHg8eDx4PHRAdDx4PHg8eDx4PHg8eDh4PEB0QHR4PHg8PHh4OAAFVDx4PHRAdEB0PHg8eDx4PHg8eDx0QHQ8eDx4PHg8eDx4PHRAeDg8eEB0eDx4PDx4eDgABVQ8eDx4PHRAdDx4PHg8eDx4PHg8dEB0PHg8eDx4PHg8eDx0QHQ8QHRAdHg8eDw8eHg4ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '4'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AXjOBAANHg8eDx0QHQ8eDx4PHg8eDx4PHQ8eDx4PHg8eDx4OHw8PHRAdHg8PHh4PHg8PHR8OAAFVDx0QHRAdDx4PHg8eDx4PHQ8eDx4PHg8eDx4PHRAdEB0PDx4QHR4PDx4eDx4OEB0fDgABVQ8dDx4PHg8eDx4PHg8eDh4QHQ8eDx4PHg8dEB0QHQ8eDw8eDx4eDw8dHw4fDhAdHg8AAVUPHQ8eDx4PHg8eDx0QHQ8eDx4PHg8eDx4PHg8dDx4PHg8PHg8eHg8PHh4OHw4QHR4PAAFVDx0PHg8eDx4PHRAdEB0PHg8eDx4PHg8dDx4QHQ8eDx4PDx4PHh0PEB0eDx4PDx4eDwABVA8eDx4PHRAdDx4PHg8eDx4PHRAdDx4PHg8eDx4PHg8dEA8dEB0eDxAdHg8eDw8eHg4ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '5'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AXjOBAANHRAdDx4QHQ8eDx4PHRAdEB0PHhAdDx4PHg8eDx0QHQ8eEA4eHg8PHh4PHg8PHR4PAAFVDx0QHRAdDx4PHg8eDx4PHRAdDx4PHg8eDx0QHRAdDx4PHg8PHh4PDx4eDh4PDx4eDwABVBAdDx4PHg8eDx4PHRAdDx4PHg8eDx0QHRAdEB0PHg8eDx4PDx4eDw8eHQ8eDw8eHg8AAVQQHQ8eDx4PHg8dEB0PHhAdDx4PHg8dEB0QHRAdDx4PHg8eDw8eHRAPHR4PHg8PHh4PAAFVDx0PHg8eDx4PHRAdDx4PHg8eDx4PHg8eDx0PHg8eDx4PHg8PHh4PDx0eDx4PDx4eDwABVBAdDx4PHg8eDx4PHRAdDx4PHg8eDx4PHRAdEB0QHQ8eDx4PDx4dEA8eHRAdDw8eHg8ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: '6'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AYzOBAANHg8dEB0PHg8eDx4PHg4fDh4PHg8eDx4PHg8eDx4PHg4QHR8OHg8PHh4OHw4QHR8OAAFVDx4PHg8dDx4PHg8eDx4PHg8eDh8OHg8eDx4PHg8eDx4OEB0eDx8OEB0eDx4PDx0fDgABVQ8eDx4OHw4fDh4PHg8eDx4PHg8eDh8OHg8eDx4PHg8eDw8dHw4eDxAdHg8eDw8eHg4AAVYOHg8eDh8OHw4eDx4PHg8eDx4PHg4fDh8OHg8eDx4PHg8PHR8OHw4QHR4PHg8PHh4PAAFUDx4PHg4fDx0PHg8eDx4PHg8eDx4OHw4eDx4PHg8eDx4PDx4eDh8OEB0eDx4PEB0eDwABVBAdDx4PHg8eDh8OHg8eDx4PHg8eDh8OHw4fDh4PHg8eDw8dHw4fDhAdHw4eDxAdHg8ABdw=
+    - conditions:
+      - condition: state
+        entity_id: input_select.bedroom_fan_speed
+        state: 'OFF'
+      sequence:
+      - action: remote.send_command
+        target:
+          device_id: 7cd9f2fdfe18e672ddf619426e34123d
+        data:
+          command: b64:eMA8AYzOBAAPHBEcEB0QHRAdEB0PHg8eDx4PHRAdDx4PHg8eDx4PHg8PHRAdEB0QHR4PHg4QHh4OAAFVDx4PHRAdEB0PHg8eDx4PHRAdEB0PHg8eDx4PHg8dEB0PDx4PHg8eEB0eDh8OEB0fDgABVQ8dDx4QHQ8eDx4PHg8dEB0QHQ8eDx4PHg8eDx0QHRAdDw8eDx4PHg8dHw4fDhAdHg8AAVUPHQ8eDx4PHg8eDx4PHRAdEB0PHg8eDx4PHg8dEB0QHQ8PHg8eDx0QHR8OHw4QHR4PAAFVDx0PHg8eDx4PHRAdEB0PHg8eDx4PHg8dEB0PHg8eDx4PDx4PHRAdEB0eDx4PDx4eDwABVA8dEB4PHRAdEB0PHg8eDx0QHg8dEB0PHg8eDx4PHg8dEA8dEB0QHQ8eHg8eDhAdHw4ABdw=
+  description: ''

@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.map",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "type": "panel",
+          "title": "Map",
+          "icon": "",
+          "cards": [
+            {
+              "type": "map",
+              "auto_fit": true,
+              "show_all": true,
+              "hours_to_show": 5
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "path": "map-2-0",
+          "title": "Map 2.0",
+          "cards": [
+            {
+              "type": "custom:map-card",
+              "history_start": "24 hours ago",
+              "entities": [
+                "zone.jeremy_s_work",
+                "zone.home",
+                "device_tracker.life360_dad",
+                "device_tracker.life360_katherine_wolfe",
+                "device_tracker.life360_meadow_long",
+                "device_tracker.life360_ashley_wolfe",
+                "device_tracker.life360_jon",
+                "device_tracker.life360_john_wolfe",
+                "device_tracker.life360_victoria",
+                "device_tracker.life360_josh_w",
+                "device_tracker.life360_jeremy",
+                "device_tracker.life360_mom",
+                "device_tracker.life360_marissa_long",
+                "device_tracker.life360_megan"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "path": "",
+          "cards": []
+        }
+      ]
+    }
+  }
+}

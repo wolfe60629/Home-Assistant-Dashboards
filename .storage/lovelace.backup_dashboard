@@ -1,0 +1,1144 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.backup_dashboard",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "person.jeremy_wolfe"
+              ]
+            }
+          ],
+          "type": "sections",
+          "subview": false,
+          "theme": "Material You Dark",
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "scroll",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "thermostat",
+                  "entity": "climate.thermostat",
+                  "show_current_as_primary": true,
+                  "features": [
+                    {
+                      "type": "climate-hvac-modes"
+                    },
+                    {
+                      "style": "dropdown",
+                      "type": "climate-fan-modes",
+                      "fan_modes": [
+                        "on",
+                        "auto",
+                        "off"
+                      ]
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 7
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "Active Entities"
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "switch",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "remote",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "climate",
+                        "state": "heat"
+                      },
+                      {
+                        "options": {},
+                        "domain": "input_boolean",
+                        "state": "On"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "entity_id": "switch.mabels_fish"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "remote.broadlink"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "switch.mabel_miku"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "switch.jackson_miku"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "switch.pbl_8c4b1400e3ac_module_power"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "climate.pbl_8c4b1400e3ac_grill_temperature"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "switch.mabel_s_echo_dot_do_not_disturb_switch"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "switch.jackson_s_echo_dot_do_not_disturb_switch"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "numeric": true,
+                    "attribute": "brightness"
+                  },
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.thermostat_current_temperature",
+                      "name": "Home Temperature"
+                    }
+                  ],
+                  "hours_to_show": 24,
+                  "points_per_hour": 2
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:button-card",
+                      "entity": "sensor.at340891n_laundry_machine_state",
+                      "icon": "mdi:washing-machine",
+                      "show_icon": true,
+                      "show_state": false,
+                      "layout": "vertical",
+                      "size": "60%",
+                      "variables": {
+                        "loads_sensor": "sensor.at340891n_laundry_washer_smart_dispense_loads_left",
+                        "cycle_sensor": "sensor.at340891n_laundry_cycle",
+                        "time_sensor": "sensor.at340891n_laundry_time_remaining",
+                        "temp_sensor": "sensor.at340891n_laundry_washer_washtemp_level",
+                        "spin_sensor": "sensor.at340891n_laundry_washer_spintime_level",
+                        "soil_sensor": "sensor.at340891n_laundry_washer_soil_level"
+                      },
+                      "name": "[[[\n  const state = entity.state;\n  const loads = states[variables.loads_sensor]?.state ?? '--';\n  if (state === 'Run') {\n    const cycle = states[variables.cycle_sensor]?.state ?? 'Cycle';\n    const time = states[variables.time_sensor]?.state ?? '--';\n    const temp = states[variables.temp_sensor]?.state ?? 'Temp';\n    const spin = states[variables.spin_sensor]?.state ?? 'Spin';\n    const soil = states[variables.soil_sensor]?.state ?? 'Soil';\n    return `${cycle} (${time} left)\\nTemp: ${temp} | Spin: ${spin} | Soil: ${soil}\\nLoads Left: ${loads}`;\n  } else {\n    return `Washer is ${state}\\nLoads Left: ${loads}`;\n  }\n]]]\n",
+                      "state": [
+                        {
+                          "value": "Run",
+                          "color": "red"
+                        },
+                        {
+                          "value": "Off",
+                          "color": "White"
+                        },
+                        {
+                          "value": "Finished",
+                          "color": "green",
+                          "styles": {
+                            "icon": [
+                              {
+                                "animation": "blink 1s infinite"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "styles": {
+                        "card": [
+                          {
+                            "height": "190px"
+                          },
+                          {
+                            "font-size": "14px"
+                          }
+                        ],
+                        "icon": [
+                          {
+                            "width": "64px"
+                          },
+                          {
+                            "height": "64px"
+                          }
+                        ],
+                        "name": [
+                          {
+                            "font-weight": "bold"
+                          },
+                          {
+                            "font-size": "14px"
+                          },
+                          {
+                            "text-align": "center"
+                          },
+                          {
+                            "white-space": "pre-line"
+                          }
+                        ],
+                        "custom_fields": {
+                          "blink": "@keyframes blink {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.2; }\n}\n"
+                        }
+                      }
+                    },
+                    {
+                      "type": "custom:button-card",
+                      "entity": "sensor.gt901069g_laundry_machine_state",
+                      "icon": "mdi:tumble-dryer",
+                      "show_icon": true,
+                      "show_state": false,
+                      "layout": "vertical",
+                      "size": "60%",
+                      "variables": {
+                        "cycle_sensor": "sensor.gt901069g_laundry_cycle",
+                        "time_sensor": "sensor.gt901069g_laundry_time_remaining",
+                        "temp_sensor": "sensor.gt901069g_laundry_dryer_temperaturenew_option",
+                        "dryness_sensor": "sensor.gt901069g_laundry_dryer_drynessnew_level",
+                        "tumble_sensor": "sensor.gt901069g_laundry_dryer_tumble_status",
+                        "door_sensor": "binary_sensor.gt901069g_laundry_door"
+                      },
+                      "name": "[[[\n  const state = entity.state;\n  if (state === 'Run') {\n    const cycle = states[variables.cycle_sensor]?.state ?? 'Cycle';\n    const time = states[variables.time_sensor]?.state ?? '--';\n    const temp = states[variables.temp_sensor]?.state ?? 'Temp';\n    const dry = states[variables.dryness_sensor]?.state ?? 'Dryness';\n    const tumble = states[variables.tumble_sensor]?.state ?? 'Tumble';\n    return `${cycle} (${time} left)\\nTemp: ${temp} | Dryness: ${dry} | Tumble: ${tumble}`;\n  } else if (state === 'Finished') {\n    return `Dryer is ${state} \\n`;\n  } else { \n    return `Dryer is ${state} \\n`;\n  }\n]]]\n",
+                      "state": [
+                        {
+                          "value": "Run",
+                          "color": "red"
+                        },
+                        {
+                          "operator": "template",
+                          "value": "[[[\n  return states['binary_sensor.clothes_still_in_dryer']?.state === 'on';\n]]]\n",
+                          "styles": {
+                            "icon": [
+                              {
+                                "animation": "blink 1.5s infinite"
+                              },
+                              {
+                                "color": "yellow"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "styles": {
+                        "card": [
+                          {
+                            "height": "190px"
+                          },
+                          {
+                            "font-size": "14px"
+                          }
+                        ],
+                        "icon": [
+                          {
+                            "width": "64px"
+                          },
+                          {
+                            "height": "64px"
+                          }
+                        ],
+                        "name": [
+                          {
+                            "font-weight": "bold"
+                          },
+                          {
+                            "font-size": "14px"
+                          },
+                          {
+                            "text-align": "center"
+                          },
+                          {
+                            "white-space": "pre-line"
+                          }
+                        ],
+                        "custom_fields": {
+                          "blink": "@keyframes blink {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.2; }\n}\n"
+                        }
+                      }
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                }
+              ],
+              "column_span": 2
+            }
+          ],
+          "max_columns": 2,
+          "dense_section_placement": false,
+          "header": {
+            "layout": "center",
+            "badges_position": "top",
+            "badges_wrap": "wrap"
+          },
+          "badges": [
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.pixel_9_pro_xl_battery_level_2",
+              "name": "Jeremy's Phone",
+              "state_content": [
+                "state",
+                "last_updated"
+              ]
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.jeremy_s_watch_battery_level",
+              "name": "Jeremy's Watch",
+              "state_content": [
+                "state",
+                "last_updated"
+              ]
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.sm_s918u_battery_level",
+              "name": "Megan's Phone",
+              "state_content": [
+                "state",
+                "last_updated"
+              ]
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.galaxy_watch5_3few_battery_level",
+              "name": "Megan's Watch",
+              "state_content": [
+                "state",
+                "last_updated"
+              ]
+            }
+          ],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Living Areas",
+          "path": "living-areas",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "square": false,
+                  "type": "grid",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-select-card",
+                      "entity": "select.living_room_tv_application",
+                      "fill_container": false,
+                      "icon": "",
+                      "primary_info": "none",
+                      "secondary_info": "none",
+                      "icon_type": "none"
+                    },
+                    {
+                      "type": "custom:roku-card",
+                      "entity": "media_player.living_room_tv",
+                      "tv": true,
+                      "apps": null,
+                      "volume_up": {
+                        "tap_action": {
+                          "action": "call-service",
+                          "service": "remote.send_command",
+                          "service_data": {
+                            "entity_id": "remote.living_room_tv",
+                            "command": "volume_up"
+                          }
+                        }
+                      },
+                      "volume_down": {
+                        "double_tap_action": {
+                          "action": "call-service",
+                          "service": "remote.send_command",
+                          "service_data": {
+                            "entity_id": "remote.living_room_tv",
+                            "command": "volume_down"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "columns": 1
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.couch_lamp"
+                    },
+                    {
+                      "entity": "switch.kitchen_light_1",
+                      "name": "Light 1"
+                    },
+                    {
+                      "entity": "switch.kitchen_light_2",
+                      "name": "Light 2"
+                    },
+                    {
+                      "entity": "water_heater.sndv123646q_oven",
+                      "name": "Oven",
+                      "secondary_info": "last-changed"
+                    }
+                  ],
+                  "title": "Kitchen"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    "switch.entryway_light"
+                  ],
+                  "title": "Foyer"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.dining_room"
+                    },
+                    {
+                      "entity": "input_boolean.picture_lights"
+                    }
+                  ],
+                  "title": "Dining Room"
+                },
+                {
+                  "type": "grid",
+                  "square": false,
+                  "columns": 1,
+                  "cards": [
+                    {
+                      "type": "entities",
+                      "entities": [
+                        {
+                          "entity": "switch.living_room_fan",
+                          "name": "Fan"
+                        },
+                        {
+                          "entity": "light.living_room_light",
+                          "name": "Light"
+                        },
+                        {
+                          "entity": "remote.living_room_tv",
+                          "name": "TV"
+                        },
+                        {
+                          "entity": "binary_sensor.living_room_tv_headphones_connected",
+                          "name": "TV Headphones connected"
+                        }
+                      ],
+                      "title": "Living Room"
+                    }
+                  ]
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.laundry_room_light",
+                      "name": "Light"
+                    },
+                    {
+                      "entity": "sensor.at340891n_laundry_time_remaining"
+                    },
+                    {
+                      "entity": "sensor.at340891n_laundry_machine_state",
+                      "secondary_info": "last-updated",
+                      "name": "Washer State"
+                    }
+                  ],
+                  "title": "Laundry Room"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.guest_bathroom_fan",
+                      "name": "Fan"
+                    },
+                    {
+                      "entity": "switch.guest_bathroom_light",
+                      "name": "Light"
+                    }
+                  ],
+                  "title": "Guest Bathroom"
+                },
+                {
+                  "type": "grid",
+                  "square": false,
+                  "columns": 1,
+                  "cards": [
+                    {
+                      "type": "entities",
+                      "entities": [
+                        {
+                          "entity": "light.entryway_lamp"
+                        },
+                        {
+                          "entity": "switch.hallway"
+                        }
+                      ],
+                      "title": "Hallway"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "cards": [],
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "scroll",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "path": "downstairs",
+          "max_columns": 4,
+          "title": "Downstairs",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.downstairs_bathroom_fan"
+                    },
+                    {
+                      "entity": "switch.downstairs_bathroom_light"
+                    },
+                    {
+                      "entity": "switch.downstairs_light"
+                    },
+                    {
+                      "entity": "switch.office_fan",
+                      "name": "Fan"
+                    },
+                    {
+                      "entity": "light.left_office_light"
+                    },
+                    {
+                      "entity": "light.right_office_light"
+                    },
+                    {
+                      "entity": "climate.basement_space_heater"
+                    }
+                  ],
+                  "title": "Office"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "sensor.hp_officejet_5740_series_black_ink",
+                      "name": "Black ink"
+                    },
+                    "sensor.hp_officejet_5740_series",
+                    {
+                      "entity": "sensor.hp_officejet_5740_series_tri_color_ink",
+                      "name": "Tri-color ink"
+                    }
+                  ],
+                  "title": "HP Officejet 5740 series"
+                }
+              ]
+            }
+          ],
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "cards": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Bedroom",
+          "path": "bedroom",
+          "theme": "yourname",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "square": false,
+                  "type": "grid",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-select-card",
+                      "entity": "select.bedroom_tv_application",
+                      "fill_container": false,
+                      "icon": "",
+                      "primary_info": "none",
+                      "secondary_info": "none",
+                      "icon_type": "none"
+                    },
+                    {
+                      "type": "custom:roku-card",
+                      "entity": "media_player.bedroom_tv",
+                      "remote": "remote.bedroom_tv",
+                      "tv": true,
+                      "apps": true,
+                      "volume_up": {
+                        "tap_action": {
+                          "action": "call-service",
+                          "service": "remote.send_command",
+                          "service_data": {
+                            "entity_id": "remote.bedroom_tv",
+                            "command": "volume_up"
+                          }
+                        },
+                        "double_tap_action": {
+                          "action": "call-service",
+                          "service": "remote.send_command",
+                          "service_data": {
+                            "entity_id": "remote.bedroom_tv",
+                            "command": "volume_down"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "columns": 1
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.megan_s_side_table"
+                    },
+                    {
+                      "entity": "light.jeremy_s_side_table"
+                    },
+                    {
+                      "entity": "light.bedroom_lamp"
+                    },
+                    {
+                      "entity": "switch.bedroom_sound_machine"
+                    },
+                    {
+                      "entity": "remote.bedroom_tv"
+                    },
+                    {
+                      "entity": "input_select.bedroom_fan_speed",
+                      "name": "Bedroom Fan Speed"
+                    }
+                  ],
+                  "title": "Bedroom "
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.closet"
+                    },
+                    {
+                      "entity": "switch.bathroom_fan"
+                    },
+                    {
+                      "entity": "switch.bathroom_light"
+                    },
+                    {
+                      "entity": "switch.shower_fan"
+                    },
+                    {
+                      "entity": "switch.shower_light"
+                    },
+                    {
+                      "entity": "switch.sink_light"
+                    }
+                  ],
+                  "title": "Bathroom"
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "cards": [],
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "scroll",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Kid's Rooms",
+          "path": "kid-s-rooms",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.mabels_fish"
+                    },
+                    {
+                      "entity": "switch.mabels_fan"
+                    },
+                    {
+                      "entity": "light.mabels_lamp"
+                    },
+                    {
+                      "entity": "light.mabels_light"
+                    },
+                    {
+                      "entity": "switch.mabel_s_sound_machine_socket_1"
+                    }
+                  ],
+                  "title": "Mabel's Room"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.jackson_s_fan"
+                    },
+                    {
+                      "entity": "light.jackson_s_light"
+                    },
+                    {
+                      "entity": "switch.jackson_s_sound_machine_socket_1",
+                      "name": "Jackson's Sound Machine",
+                      "icon": "mdi:home-sound-in"
+                    },
+                    {
+                      "entity": "climate.jackson_s_heater"
+                    }
+                  ],
+                  "title": "Jackson's Room"
+                }
+              ]
+            }
+          ],
+          "theme": "yourname",
+          "cards": [],
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "scroll",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "header": {},
+          "badges": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Outside",
+          "path": "outside",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:advanced-camera-card",
+                  "cameras": [
+                    {
+                      "camera_entity": "camera.backyard_camera_live_view"
+                    }
+                  ],
+                  "timeline": {
+                    "style": "ribbon",
+                    "controls": {
+                      "thumbnails": {
+                        "mode": "above"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Spa",
+                  "icon": "mdi:spa",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.spa_errors",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "title": "Spa History",
+                  "type": "history-graph",
+                  "hours_to_show": 9,
+                  "entities": [
+                    "climate.spa_thermostat",
+                    "binary_sensor.spa_errors"
+                  ],
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 7
+                  },
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.spa_errors",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "icon": "mdi:grill",
+                  "heading_style": "title",
+                  "heading": "Pit Boss"
+                },
+                {
+                  "graph": "line",
+                  "type": "sensor",
+                  "entity": "sensor.pbl_8c4b1400e3ac_probe_1",
+                  "detail": 1,
+                  "name": "Probe 1"
+                },
+                {
+                  "graph": "line",
+                  "type": "sensor",
+                  "detail": 1,
+                  "entity": "sensor.pbl_8c4b1400e3ac_probe_2",
+                  "name": "Probe 2"
+                },
+                {
+                  "type": "tile",
+                  "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                  "show_entity_picture": false,
+                  "vertical": false,
+                  "hide_state": false,
+                  "icon": "mdi:grill",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "icon_tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "state_content": [
+                    "current_temperature",
+                    "last_updated"
+                  ],
+                  "name": "Pitboss Temperature ",
+                  "features_position": "bottom"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.pbl_8c4b1400e3ac_module_power"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_fan_error"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_auger_error"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_igniter_error"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_high_temperature_error"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "New section"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    "switch.driveway_light",
+                    "switch.front_porch"
+                  ],
+                  "title": "Front Porch"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.outside_flood"
+                    },
+                    {
+                      "entity": "switch.porch_light_2"
+                    },
+                    {
+                      "entity": "climate.spa_thermostat"
+                    }
+                  ],
+                  "title": "Back Porch"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.garage_light",
+                      "name": "Light"
+                    }
+                  ],
+                  "title": "Garage"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527_upper_decoration_plug_1",
+                      "name": "Upper Decoration Plug 1"
+                    },
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527_upper_decoration_plug_2",
+                      "name": "Upper Decoration Plug 2"
+                    },
+                    {
+                      "entity": "switch.pool"
+                    },
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527"
+                    },
+                    {
+                      "entity": "light.christmas_tree_light",
+                      "name": "Tree Light"
+                    }
+                  ],
+                  "title": "Holiday"
+                }
+              ]
+            }
+          ],
+          "theme": "yourname",
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "cards": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Raspberry Pi",
+          "path": "raspberry-pi",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:pi-hole",
+                  "device_id": [
+                    "e34c460635ab6e990dc05f1ae4f067ff"
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_processor_use",
+                      "name": "CPU Usage"
+                    }
+                  ],
+                  "hours_to_show": 2,
+                  "points_per_hour": 720
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.system_monitor_processor_temperature"
+                }
+              ],
+              "column_span": 2
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_memory_usage",
+                      "name": "Memory Usage"
+                    }
+                  ],
+                  "hours_to_show": 2,
+                  "points_per_hour": 60
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_disk_free",
+                      "name": "Disk Space Free"
+                    }
+                  ],
+                  "hours_to_show": 72,
+                  "points_per_hour": 1
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "sensor.rbr50_gateway_download_speed",
+                      "name": "Download speed"
+                    },
+                    {
+                      "entity": "sensor.rbr50_gateway_upload_speed",
+                      "name": "Upload speed"
+                    }
+                  ],
+                  "title": "RBR50 (Gateway)"
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.rbr50_downlink_bandwidth",
+                      "name": "Router Bandwidth"
+                    }
+                  ],
+                  "hours_to_show": 72,
+                  "points_per_hour": 1
+                },
+                {
+                  "type": "custom:pi-hole",
+                  "device_id": [
+                    "cfc7e570a8d86d583692aa015e2e3517"
+                  ],
+                  "icon": ""
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "theme": "yourname",
+          "background": {
+            "opacity": 100,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "scroll",
+            "image": "/api/image/serve/5d3cb9a9bfeb42ab55e36501a49d7b0f/original"
+          },
+          "top_margin": false
+        }
+      ]
+    }
+  }
+}

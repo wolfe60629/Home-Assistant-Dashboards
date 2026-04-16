@@ -1,0 +1,1871 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "button_card_templates": {
+        "glass_small": {
+          "styles": {
+            "card": [
+              {
+                "background": "rgba(0,0,0,0.4)"
+              },
+              {
+                "border-radius": "16px"
+              },
+              {
+                "backdrop-filter": "blur(8px) saturate(140%)"
+              },
+              {
+                "padding": "10px 12px"
+              }
+            ],
+            "name": [
+              {
+                "font-weight": 600
+              }
+            ]
+          }
+        },
+        "alert_chip": {
+          "styles": {
+            "card": [
+              {
+                "background": "rgba(200,40,40,0.55)"
+              },
+              {
+                "color": "white"
+              },
+              {
+                "border-radius": "16px"
+              },
+              {
+                "padding": "6px 10px"
+              },
+              {
+                "font-weight": 600
+              },
+              {
+                "box-shadow": "0 0 8px -2px rgba(200,40,40,0.7)"
+              }
+            ]
+          }
+        }
+      },
+      "views": [
+        {
+          "title": "Home",
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "person.jeremy_wolfe"
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "entity",
+                  "entity": "person.jeremy_wolfe",
+                  "name": "Jeremy"
+                },
+                {
+                  "type": "weather-forecast",
+                  "entity": "weather.home",
+                  "show_forecast": false
+                },
+                {
+                  "type": "entity",
+                  "entity": "sensor.thermostat_current_temperature",
+                  "name": "Inside Temp"
+                }
+              ]
+            }
+          ],
+          "type": "sections",
+          "subview": false,
+          "theme": "clear-dark",
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/original",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:button-card",
+                      "name": "Kids Bedtime",
+                      "icon": "mdi:lightbulb-on-80",
+                      "show_state": false,
+                      "tap_action": {
+                        "action": "call-service",
+                        "confirmation": {
+                          "text": "Trigger Automation?"
+                        },
+                        "service": "automation.trigger",
+                        "service_data": {
+                          "entity_id": "automation.manual_kids_bedtime"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "styles": {
+                        "card": [
+                          {
+                            "background": "rgba(255,255,255,.2)"
+                          },
+                          {
+                            "border-radius": "18px"
+                          },
+                          {
+                            "backdrop-filter": "blur(10px) saturate(140%)"
+                          },
+                          {
+                            "padding": "10px"
+                          },
+                          {
+                            "height": "50px"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "custom:button-card",
+                      "name": "Bedtime",
+                      "icon": "mdi:lightbulb-on-80",
+                      "show_state": false,
+                      "tap_action": {
+                        "action": "call-service",
+                        "confirmation": {
+                          "text": "Trigger Automation?"
+                        },
+                        "service": "automation.trigger",
+                        "service_data": {
+                          "entity_id": "automation.manual_bedtime"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "styles": {
+                        "card": [
+                          {
+                            "background": "rgba(255,255,255,.2)"
+                          },
+                          {
+                            "border-radius": "18px"
+                          },
+                          {
+                            "backdrop-filter": "blur(10px) saturate(140%)"
+                          },
+                          {
+                            "padding": "10px"
+                          },
+                          {
+                            "height": "50px"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "custom:button-card",
+                      "name": "Blank",
+                      "icon": "mdi:power-sleep",
+                      "show_state": false,
+                      "tap_action": {
+                        "action": "call-service",
+                        "confirmation": {
+                          "text": "Turn off all lights & fans now?"
+                        },
+                        "service": "homeassistant.turn_off",
+                        "data": {
+                          "area_id": [
+                            "bedroom",
+                            "living_room",
+                            "dining_room",
+                            "kitchen",
+                            "office",
+                            "bathroom",
+                            "guest_bathroom",
+                            "foyer",
+                            "front_porch",
+                            "hallway"
+                          ]
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "styles": {
+                        "card": [
+                          {
+                            "background": "rgba(255,255,255,.2)"
+                          },
+                          {
+                            "border-radius": "18px"
+                          },
+                          {
+                            "backdrop-filter": "blur(10px) saturate(140%)"
+                          },
+                          {
+                            "padding": "10px"
+                          },
+                          {
+                            "height": "50px"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:weather-forecast-card",
+                  "show_current": true,
+                  "show_forecast": true,
+                  "default_forecast": "daily",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "entity": "weather.forecast_home",
+                  "show_condition_effects": [
+                    "rain",
+                    "snow",
+                    "lightning",
+                    "sun",
+                    "moon"
+                  ],
+                  "grid_options": {
+                    "columns": "full"
+                  },
+                  "forecast": {
+                    "mode": "simple",
+                    "show_sun_times": true,
+                    "scroll_to_selected": true,
+                    "use_color_thresholds": true,
+                    "temperature_precision": 0
+                  },
+                  "forecast_action": {
+                    "tap_action": {
+                      "action": "toggle-forecast"
+                    }
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "Needs Attention",
+                    "show_header_toggle": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "entity_id": "sensor.*battery_level*",
+                        "state": "< 20"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "binary_sensor.clothes_still_in_washer",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "binary_sensor.clothes_still_in_dryer",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "cover.left_garage_door",
+                        "state": "Open"
+                      },
+                      {
+                        "options": {},
+                        "entity_id": "lock.*",
+                        "state": "unlocked"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "domain": "group"
+                      }
+                    ]
+                  },
+                  "show_empty": false,
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.thermostat",
+                  "show_current_as_primary": true,
+                  "features": [
+                    {
+                      "type": "climate-hvac-modes"
+                    },
+                    {
+                      "style": "dropdown",
+                      "type": "climate-fan-modes",
+                      "fan_modes": [
+                        "on",
+                        "auto",
+                        "off"
+                      ]
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 7
+                  }
+                }
+              ],
+              "column_span": 2
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "Active Entities"
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "switch",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "remote",
+                        "state": "on"
+                      },
+                      {
+                        "options": {},
+                        "domain": "climate",
+                        "state": "heat"
+                      },
+                      {
+                        "options": {},
+                        "domain": "input_boolean",
+                        "state": "On"
+                      },
+                      {
+                        "options": {
+                          "type": "custom:template-entity-row",
+                          "name": "Washer Time Remaining",
+                          "icon": "mdi:timer-outline",
+                          "state": "{% if states('sensor.at340891n_laundry_machine_state') == 'Run' %}\n  {% set seconds = states('sensor.at340891n_laundry_time_remaining') | float(0) %}\n  {{ states('sensor.at340891n_laundry_cycle') }} | {{ (seconds / 60) | round(0) }} min\n{% endif %}\n"
+                        },
+                        "entity_id": "sensor.at340891n_laundry_sub_cycle",
+                        "state": "Wash"
+                      },
+                      {
+                        "options": {
+                          "type": "custom:template-entity-row",
+                          "name": "Dryer Time Remaining",
+                          "icon": "mdi:timer-outline",
+                          "state": "{% if states('sensor.gt901069g_laundry_machine_state') == 'Run' %}\n  {{ states('sensor.gt901069g_laundry_cycle') }} |\n  {% set seconds = states('sensor.gt901069g_laundry_time_remaining') | float(0) %}\n  {{ (seconds / 60) | round(0) }} min\n{% endif %}\n"
+                        },
+                        "entity_id": "sensor.gt901069g_laundry_time_remaining",
+                        "state": "0"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "type": "section"
+                      },
+                      {
+                        "options": {},
+                        "device": "388df93f7c9f3fdbd2ef5f12dfe69cdc"
+                      },
+                      {
+                        "options": {},
+                        "device": "766aad356c90f826e18df0cc4fa707ce"
+                      },
+                      {
+                        "options": {},
+                        "device": "55df06e4cd595422908be8ead215bcbe"
+                      },
+                      {
+                        "options": {},
+                        "device": "f0a6d9e6a8b9a39eb008e466fb3ee19e"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01KGK5F9XKW5H8E7JRN2TSTMCX"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01KHQPKMTJP04EJNZ4B81BRH5G"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01KJ0GX2QKJBSZ1DGXQM64XMS6"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01JEQD0D2XTF83S43EE26BSK7C"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01JY2GXB2CT260Z1QCZYZ8J34Z"
+                      },
+                      {
+                        "options": {},
+                        "integration": "01JX5NNCYQ4WG79PYSZRTTFBN7"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "numeric": true,
+                    "attribute": "brightness"
+                  },
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "tile",
+                  "entity": "lock.back_door"
+                }
+              ],
+              "column_span": 2
+            }
+          ],
+          "max_columns": 2,
+          "dense_section_placement": false,
+          "header": {
+            "layout": "center",
+            "badges_position": "top",
+            "badges_wrap": "wrap",
+            "card": {
+              "type": "markdown",
+              "content": "{# === Greeting (time of day) === #}\n{% set name = user.split(' ')[0] %}\n{% set hour = now().hour %}\n{% if 5 <= hour < 12 %}# Good Morning, {{ name }} ΓÿÇ∩╕Å{% elif 12 <= hour < 18 %}# Good Afternoon, {{ name }} ≡ƒîñ∩╕Å{% elif 18 <= hour < 22 %}# Good Evening, {{ name }}≡ƒîÖ{% else %}# Good Night, {{ name }} ≡ƒÿ┤{% endif %}\n\n",
+              "grid_options": {
+                "columns": "full"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  border-radius: 22px;\n  padding: 20px 22px 18px;\n  box-shadow: 0 8px 22px -10px rgba(0,0,0,0.7);\n  color: var(--primary-text-color);\n  line-height: 1.3;\n}\nh1,h2,h3 { font-weight:600; }\nstrong { color: var(--accent-color); }\n"
+              }
+            }
+          },
+          "badges": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Living Areas",
+          "path": "living-areas",
+          "theme": "clear-dark",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "condition": "or",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dv811917b_dishwasher_operating_mode",
+                          "state": "Cycle Active"
+                        },
+                        {
+                          "condition": "state",
+                          "entity": "binary_sensor.dv811917b_dishwasher_is_clean",
+                          "state": "on"
+                        }
+                      ]
+                    }
+                  ],
+                  "card": {
+                    "type": "custom:button-card",
+                    "entity": "sensor.dv811917b_dishwasher_operating_mode",
+                    "icon": "mdi:dishwasher",
+                    "show_state": false,
+                    "layout": "vertical",
+                    "variables": {
+                      "cycle_sensor": "sensor.dv811917b_dishwasher_cycle_name",
+                      "time_sensor": "sensor.dv811917b_dishwasher_time_remaining",
+                      "clean_sensor": "binary_sensor.dv811917b_dishwasher_is_clean"
+                    },
+                    "name": "[[[ \n  const s = entity.state;\n  const c = states[variables.cycle_sensor]?.state || 'Cycle';\n  const t = states[variables.time_sensor]?.state || '--';\n  const clean = states[variables.clean_sensor]?.state === 'on' ? '' : '';\n  \n  if (s === 'Run' || s === 'Cycle Active') {\n    return `${c} - ${t} left`;\n  }\n  return `Dishwasher: ${s}\\n${clean}`;\n]]]\n",
+                    "state": [
+                      {
+                        "value": "Run",
+                        "color": "red"
+                      },
+                      {
+                        "operator": "template",
+                        "value": "[[[ return states[variables.clean_sensor]?.state === 'on'; ]]]\n",
+                        "styles": {
+                          "icon": [
+                            {
+                              "animation": "blink 1.2s infinite"
+                            },
+                            {
+                              "color": "green"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "operator": "template",
+                        "value": "[[[ return entity.state === 'Cycle Active'; ]]]\n",
+                        "styles": {
+                          "icon": [
+                            {
+                              "animation": "blink 1.2s infinite"
+                            },
+                            {
+                              "color": "yellow"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "square": false,
+                  "type": "grid",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-select-card",
+                      "entity": "select.living_room_tv_application",
+                      "fill_container": false,
+                      "icon": "",
+                      "primary_info": "none",
+                      "secondary_info": "none",
+                      "icon_type": "none"
+                    },
+                    {
+                      "type": "custom:universal-remote-card",
+                      "remote_id": "remote.living_room_tv",
+                      "media_player_id": "media_player.living_room_tv",
+                      "rows": [
+                        [
+                          "power"
+                        ],
+                        [
+                          "back",
+                          "home",
+                          "keyboard"
+                        ],
+                        [
+                          "youtubetv",
+                          "hulu",
+                          "netflix"
+                        ],
+                        [
+                          "navigation_buttons"
+                        ],
+                        [
+                          "volume_down",
+                          "volume_up"
+                        ],
+                        [
+                          "channel_up",
+                          "channel_down",
+                          "info"
+                        ],
+                        [
+                          "rewind",
+                          "play",
+                          "spotify",
+                          "pause",
+                          "fast_forward"
+                        ]
+                      ],
+                      "platform": "Roku",
+                      "custom_actions": []
+                    }
+                  ],
+                  "columns": 1
+                },
+                {
+                  "type": "grid",
+                  "square": false,
+                  "columns": 1,
+                  "cards": [
+                    {
+                      "type": "entities",
+                      "entities": [
+                        {
+                          "entity": "switch.living_room_fan",
+                          "name": "Fan"
+                        },
+                        {
+                          "entity": "light.living_room_light",
+                          "name": "Light"
+                        },
+                        {
+                          "entity": "remote.living_room_tv",
+                          "name": "TV"
+                        }
+                      ],
+                      "title": "Living Room"
+                    },
+                    {
+                      "type": "custom:auto-entities",
+                      "card": {
+                        "type": "entities",
+                        "title": "Media Active"
+                      },
+                      "filter": {
+                        "include": [
+                          {
+                            "domain": "media_player",
+                            "state": "playing"
+                          }
+                        ]
+                      },
+                      "show_empty": false
+                    }
+                  ]
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.dining_room"
+                    },
+                    {
+                      "entity": "input_boolean.picture_lights"
+                    }
+                  ],
+                  "title": "Dining Room"
+                },
+                {
+                  "type": "custom:vertical-stack-in-card",
+                  "cards": [
+                    {
+                      "type": "entities",
+                      "entities": [
+                        {
+                          "entity": "switch.kitchen_light_1",
+                          "name": "Light 1"
+                        },
+                        {
+                          "entity": "switch.kitchen_light_2",
+                          "name": "Light 2"
+                        },
+                        {
+                          "entity": "water_heater.sndv123646q_oven",
+                          "name": "Oven",
+                          "secondary_info": "last-changed"
+                        }
+                      ],
+                      "title": "Kitchen"
+                    }
+                  ]
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    "switch.entryway_light"
+                  ],
+                  "title": "Foyer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dv811917b_dishwasher_operating_mode"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dv811917b_dishwasher_reminders_clean_filter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dv811917b_dishwasher_reminders_add_rinse_aid"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dv811917b_dishwasher_time_remaining"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.guest_bathroom_fan",
+                      "name": "Fan"
+                    },
+                    {
+                      "entity": "switch.guest_bathroom_light",
+                      "name": "Light"
+                    }
+                  ],
+                  "title": "Guest Bathroom"
+                },
+                {
+                  "type": "grid",
+                  "square": false,
+                  "columns": 1,
+                  "cards": [
+                    {
+                      "type": "entities",
+                      "entities": [
+                        {
+                          "entity": "light.entryway_lamp"
+                        },
+                        {
+                          "entity": "switch.hallway"
+                        }
+                      ],
+                      "title": "Hallway"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "cards": [],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/original",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "path": "office",
+          "max_columns": 4,
+          "title": "Office",
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.downstairs_bathroom_fan"
+                    },
+                    {
+                      "entity": "switch.downstairs_bathroom_light"
+                    },
+                    {
+                      "entity": "switch.downstairs_light"
+                    },
+                    {
+                      "entity": "switch.office_fan",
+                      "name": "Fan"
+                    },
+                    {
+                      "entity": "light.left_office_light"
+                    },
+                    {
+                      "entity": "light.right_office_light"
+                    },
+                    {
+                      "entity": "climate.basement_space_heater"
+                    }
+                  ],
+                  "title": "Office"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "sensor.hp_officejet_5740_series_black_ink",
+                      "name": "Black ink"
+                    },
+                    "sensor.hp_officejet_5740_series",
+                    {
+                      "entity": "sensor.hp_officejet_5740_series_tri_color_ink",
+                      "name": "Tri-color ink"
+                    }
+                  ],
+                  "title": "HP Officejet 5740 series"
+                }
+              ]
+            }
+          ],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/original",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "cards": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "title": "Laundry",
+          "path": "laundry",
+          "max_columns": 2,
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:button-card",
+                      "entity": "sensor.at340891n_laundry_machine_state",
+                      "icon": "mdi:washing-machine",
+                      "show_state": false,
+                      "layout": "vertical",
+                      "size": "55%",
+                      "variables": {
+                        "loads_sensor": "sensor.at340891n_laundry_washer_smart_dispense_loads_left",
+                        "cycle_sensor": "sensor.at340891n_laundry_cycle",
+                        "time_sensor": "sensor.at340891n_laundry_time_remaining",
+                        "temp_sensor": "sensor.at340891n_laundry_washer_washtemp_level",
+                        "spin_sensor": "sensor.at340891n_laundry_washer_spintime_level",
+                        "soil_sensor": "sensor.at340891n_laundry_washer_soil_level"
+                      },
+                      "name": "[[[ const s=entity.state; const loads=states[variables.loads_sensor]?.state||'--'; if(s==='Run'){const c=states[variables.cycle_sensor]?.state||'Cycle';const t=states[variables.time_sensor]?.state||'--';return `${c} (${t})\\nLoads Left: ${loads}`;} return `Washer: ${s} \\n | Loads: ${loads}`; ]]]\n",
+                      "state": [
+                        {
+                          "value": "Run",
+                          "color": "red"
+                        },
+                        {
+                          "operator": "template",
+                          "value": "[[[ return states['binary_sensor.clothes_still_in_washer']?.state==='on'; ]]]\n",
+                          "styles": {
+                            "icon": [
+                              {
+                                "animation": "blink 1.2s infinite"
+                              },
+                              {
+                                "color": "yellow"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom:button-card",
+                      "entity": "sensor.gt901069g_laundry_machine_state",
+                      "icon": "mdi:tumble-dryer",
+                      "show_state": false,
+                      "layout": "vertical",
+                      "size": "55%",
+                      "variables": {
+                        "cycle_sensor": "sensor.gt901069g_laundry_cycle",
+                        "time_sensor": "sensor.gt901069g_laundry_time_remaining",
+                        "temp_sensor": "sensor.gt901069g_laundry_dryer_temperaturenew_option",
+                        "dryness_sensor": "sensor.gt901069g_laundry_dryer_drynessnew_level"
+                      },
+                      "name": "[[[ const s=entity.state; if(s==='Run'){const c=states[variables.cycle_sensor]?.state||'Cycle';const t=states[variables.time_sensor]?.state||'--';return `${c} (${t})`; } return `Dryer: ${s}`; ]]]\n",
+                      "state": [
+                        {
+                          "value": "Run",
+                          "color": "red"
+                        },
+                        {
+                          "operator": "template",
+                          "value": "[[[ return states['binary_sensor.clothes_still_in_dryer']?.state==='on'; ]]]\n",
+                          "styles": {
+                            "icon": [
+                              {
+                                "animation": "blink 1.2s infinite"
+                              },
+                              {
+                                "color": "yellow"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.at340891n_laundry_machine_state",
+                      "state": "Run"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "**Washer Time Remaining:**   {% set seconds = states('sensor.at340891n_laundry_time_remaining') | float(0) %} {{ (seconds / 60) | round(0) }} min\n"
+                  }
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.gt901069g_laundry_machine_state",
+                      "state": "Run"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "**Dryer Time Remaining:**   {% set seconds = states('sensor.gt901069g_laundry_time_remaining') | float(0) %} {{ (seconds / 60) | round(0) }} min\n"
+                  }
+                },
+                {
+                  "type": "entities",
+                  "title": "Sensors",
+                  "entities": [
+                    {
+                      "entity": "binary_sensor.clothes_still_in_washer",
+                      "secondary_info": "last-changed"
+                    },
+                    {
+                      "entity": "binary_sensor.clothes_still_in_dryer",
+                      "secondary_info": "last-changed"
+                    }
+                  ],
+                  "state_color": true,
+                  "show_header_toggle": false
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.at340891n_laundry_machine_state",
+                      "state": "Delay"
+                    }
+                  ],
+                  "card": {
+                    "type": "entity",
+                    "entity": "button.at340891n_start_cycle",
+                    "name": "Start Washer Cycle"
+                  }
+                },
+                {
+                  "type": "history-graph",
+                  "entities": [
+                    "sensor.at340891n_laundry_machine_state",
+                    "sensor.gt901069g_laundry_machine_state"
+                  ],
+                  "hours_to_show": 12,
+                  "refresh_interval": 0
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.laundry_room_light"
+                    }
+                  ],
+                  "title": "Laundry Room"
+                }
+              ]
+            }
+          ],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/original",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "cards": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Bedroom",
+          "path": "bedroom",
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "square": false,
+                  "type": "grid",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-select-card",
+                      "entity": "select.bedroom_tv_application",
+                      "fill_container": false,
+                      "icon": "",
+                      "primary_info": "none",
+                      "secondary_info": "none",
+                      "icon_type": "none"
+                    },
+                    {
+                      "type": "custom:universal-remote-card",
+                      "remote_id": "remote.bedroom_tv",
+                      "media_player_id": "media_player.bedroom_tv",
+                      "rows": [
+                        [
+                          "power"
+                        ],
+                        [
+                          "back",
+                          "home",
+                          "keyboard"
+                        ],
+                        [
+                          "youtubetv",
+                          "hulu",
+                          "netflix"
+                        ],
+                        [
+                          "navigation_buttons"
+                        ],
+                        [
+                          "volume_down",
+                          "volume_up"
+                        ],
+                        [
+                          "channel_up",
+                          "channel_down",
+                          "info"
+                        ],
+                        [
+                          "rewind",
+                          "play",
+                          "spotify",
+                          "pause",
+                          "fast_forward"
+                        ]
+                      ],
+                      "platform": "Roku",
+                      "custom_actions": []
+                    }
+                  ],
+                  "columns": 1
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.megan_s_side_table"
+                    },
+                    {
+                      "entity": "light.jeremy_s_side_table"
+                    },
+                    {
+                      "entity": "remote.bedroom_tv"
+                    },
+                    {
+                      "entity": "input_select.bedroom_fan_speed",
+                      "name": "Bedroom Fan Speed"
+                    },
+                    {
+                      "entity": "switch.bedroom_sound_machine"
+                    }
+                  ],
+                  "title": "Bedroom "
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.closet"
+                    },
+                    {
+                      "entity": "switch.bathroom_fan"
+                    },
+                    {
+                      "entity": "switch.bathroom_light"
+                    },
+                    {
+                      "entity": "switch.shower_fan"
+                    },
+                    {
+                      "entity": "switch.shower_light"
+                    },
+                    {
+                      "entity": "switch.sink_light"
+                    }
+                  ],
+                  "title": "Bathroom"
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "cards": [],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/original",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Kid's Rooms",
+          "path": "kid-s-rooms",
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:advanced-camera-card",
+                  "cameras": [
+                    {
+                      "camera_entity": "camera.mabels_camera_live_view"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:advanced-camera-card",
+                  "cameras": [
+                    {
+                      "camera_entity": "camera.jackson_s_camera_live_view"
+                    }
+                  ]
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.jackson_s_fan"
+                    },
+                    {
+                      "entity": "light.jackson_s_light"
+                    },
+                    {
+                      "entity": "switch.jackson_s_sound_machine_socket_1",
+                      "name": "Jackson's Sound Machine",
+                      "icon": "mdi:home-sound-in"
+                    },
+                    {
+                      "entity": "climate.jackson_s_heater"
+                    },
+                    {
+                      "entity": "switch.jacksons_humidifier"
+                    }
+                  ],
+                  "title": "Jackson's Room"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.mabels_fan"
+                    },
+                    {
+                      "entity": "light.mabels_lamp"
+                    },
+                    {
+                      "entity": "light.mabels_light"
+                    },
+                    {
+                      "entity": "switch.mabel_s_sound_machine_socket_1"
+                    },
+                    {
+                      "entity": "switch.mabels_humidifier"
+                    }
+                  ],
+                  "title": "Mabel's Room"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "media-source://image_upload/9ae960e021d9a56a219e510a8819081e",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "header": {},
+          "badges": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Outside",
+          "path": "outside",
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Spa",
+                  "icon": "mdi:spa",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.spa_errors",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.spa_thermostat",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "climate.spa_thermostat",
+                  "vertical": false,
+                  "features_position": "bottom",
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mini-graph-card",
+                      "name": "Spa Heating Duration (Last 14 Days)",
+                      "entities": [
+                        {
+                          "entity": "sensor.spa_heater_active_time",
+                          "name": "Heating Hours"
+                        }
+                      ],
+                      "hours_to_show": 336,
+                      "aggregate_func": "max",
+                      "group_by": "date",
+                      "show": {
+                        "graph": "bar",
+                        "labels": true,
+                        "legend": false,
+                        "name": true,
+                        "state": true,
+                        "icon": false
+                      },
+                      "bar_spacing": 6,
+                      "color_thresholds": [
+                        {
+                          "value": 0,
+                          "color": "#1E90FF"
+                        },
+                        {
+                          "value": 6,
+                          "color": "#FFA500"
+                        },
+                        {
+                          "value": 12,
+                          "color": "#FF4500"
+                        }
+                      ],
+                      "tap_action": {
+                        "action": "more-info"
+                      }
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  },
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.spa_thermostat",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "title": "Spa History",
+                  "type": "history-graph",
+                  "hours_to_show": 9,
+                  "entities": [
+                    "climate.spa_thermostat",
+                    "binary_sensor.spa_errors"
+                  ],
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 7
+                  },
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.spa_errors",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.spa_plug_current_consumption"
+                },
+                {
+                  "type": "heading",
+                  "icon": "mdi:grill",
+                  "heading_style": "title",
+                  "heading": "Pit Boss",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    },
+                    {
+                      "entity": "switch.pbl_8c4b1400e3ac_module_power",
+                      "state": "off"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "**Grill temperature:** {{ states('climate.pbl_8c4b1400e3ac_grill_temperature') }} (module off) ΓÇô verify safety.\n"
+                  }
+                },
+                {
+                  "graph": "line",
+                  "type": "sensor",
+                  "entity": "sensor.pbl_8c4b1400e3ac_probe_1",
+                  "detail": 1,
+                  "name": "Probe 1",
+                  "hours_to_show": 1,
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "graph": "line",
+                  "type": "sensor",
+                  "detail": 1,
+                  "entity": "sensor.pbl_8c4b1400e3ac_probe_2",
+                  "name": "Probe 2",
+                  "hours_to_show": 1,
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                  "show_entity_picture": false,
+                  "vertical": false,
+                  "hide_state": false,
+                  "icon": "mdi:grill",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "icon_tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "state_content": [
+                    "current_temperature",
+                    "last_updated"
+                  ],
+                  "name": "Pitboss Temperature ",
+                  "features_position": "bottom"
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "switch.pbl_8c4b1400e3ac_module_power"
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_fan_error"
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_auger_error"
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_igniter_error"
+                },
+                {
+                  "type": "tile",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "climate.pbl_8c4b1400e3ac_grill_temperature",
+                      "state_not": "unavailable"
+                    }
+                  ],
+                  "entity": "binary_sensor.pbl_8c4b1400e3ac_high_temperature_error"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    "switch.driveway_light",
+                    "switch.front_porch"
+                  ],
+                  "title": "Front Porch"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.outside_flood"
+                    },
+                    {
+                      "entity": "switch.porch_light_2"
+                    }
+                  ],
+                  "title": "Back Porch"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.garage_light",
+                      "name": "Light"
+                    },
+                    {
+                      "entity": "cover.left_garage_door"
+                    }
+                  ],
+                  "title": "Garage"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527_upper_decoration_plug_1",
+                      "name": "Upper Decoration Plug 1"
+                    },
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527_upper_decoration_plug_2",
+                      "name": "Upper Decoration Plug 2"
+                    },
+                    {
+                      "entity": "switch.pool"
+                    },
+                    {
+                      "entity": "switch.tp_link_smart_plug_c527"
+                    },
+                    {
+                      "entity": "light.christmas_tree_light",
+                      "name": "Tree Light"
+                    }
+                  ],
+                  "title": "Holiday"
+                },
+                {
+                  "type": "custom:advanced-camera-card",
+                  "cameras": [
+                    {
+                      "camera_entity": "camera.backyard_camera_live_view"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "media-source://image_upload/9ae960e021d9a56a219e510a8819081e",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "cards": [],
+          "top_margin": false
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Raspberry Pi",
+          "path": "raspberry-pi",
+          "theme": "waves",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_processor_use",
+                      "name": "CPU Usage"
+                    }
+                  ],
+                  "hours_to_show": 2,
+                  "points_per_hour": 120,
+                  "color_thresholds": [
+                    {
+                      "value": 30,
+                      "color": "#4caf50"
+                    },
+                    {
+                      "value": 60,
+                      "color": "#ffb300"
+                    },
+                    {
+                      "value": 80,
+                      "color": "#f44336"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.system_monitor_processor_temperature"
+                }
+              ],
+              "column_span": 2
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_memory_usage",
+                      "name": "Memory Usage"
+                    }
+                  ],
+                  "hours_to_show": 2,
+                  "points_per_hour": 60
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.system_monitor_disk_free",
+                      "name": "Disk Space Free"
+                    }
+                  ],
+                  "hours_to_show": 72,
+                  "points_per_hour": 1,
+                  "color_thresholds": [
+                    {
+                      "value": 20,
+                      "color": "#f44336"
+                    },
+                    {
+                      "value": 40,
+                      "color": "#ffb300"
+                    },
+                    {
+                      "value": 60,
+                      "color": "#4caf50"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "sensor.rbr50_gateway_download_speed",
+                      "name": "Download speed"
+                    },
+                    {
+                      "entity": "sensor.rbr50_gateway_upload_speed",
+                      "name": "Upload speed"
+                    }
+                  ],
+                  "title": "RBR50 (Gateway)"
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "sensor.rbr50_downlink_bandwidth",
+                      "name": "Downlink"
+                    },
+                    {
+                      "entity": "sensor.rbr50_gateway_upload_speed",
+                      "name": "Upload"
+                    },
+                    {
+                      "entity": "sensor.system_monitor_processor_use",
+                      "name": "CPU %"
+                    },
+                    {
+                      "entity": "sensor.system_monitor_memory_usage",
+                      "name": "RAM %"
+                    }
+                  ],
+                  "name": "Performance (72h)",
+                  "hours_to_show": 72,
+                  "points_per_hour": 1,
+                  "show": {
+                    "legend": true,
+                    "extrema": false,
+                    "fill": "fade"
+                  },
+                  "line_width": 2,
+                  "animate": false
+                },
+                {
+                  "type": "custom:pi-hole",
+                  "device_id": [
+                    "cfc7e570a8d86d583692aa015e2e3517"
+                  ],
+                  "icon": ""
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "background": {
+            "opacity": 40,
+            "alignment": "top center",
+            "size": "cover",
+            "repeat": "no-repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "media-source://image_upload/9ae960e021d9a56a219e510a8819081e",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "1000063339.jpg",
+                "thumbnail": "/api/image/serve/9ae960e021d9a56a219e510a8819081e/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "top_margin": false
+        }
+      ]
+    }
+  }
+}

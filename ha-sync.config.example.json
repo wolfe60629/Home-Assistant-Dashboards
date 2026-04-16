@@ -1,0 +1,22 @@
+{
+  "SshHost": "192.168.0.1",
+  "SshUser": "your-ssh-user",
+  "SshIdentityFile": "",
+  "SshBatchMode": true,
+  "SshStrictHostKeyChecking": "accept-new",
+  "SshPort": 22,
+  "DockerContainer": "home_assistant",
+  "RemoteConfigPath": "/config/configuration.yaml",
+  "LocalRelativePath": "configuration.yaml",
+  "BackupOnPush": true,
+  "LovelaceStorage": {
+    "Enabled": true,
+    "RemoteStorageDir": "/config/.storage",
+    "LocalRelativeDir": ".storage"
+  },
+  "YamlArtifacts": [
+    { "RemotePath": "/config/automations.yaml", "LocalRelativePath": "automations.yaml" },
+    { "RemotePath": "/config/scripts.yaml", "LocalRelativePath": "scripts.yaml" },
+    { "RemotePath": "/config/scenes.yaml", "LocalRelativePath": "scenes.yaml" }
+  ]
+}
